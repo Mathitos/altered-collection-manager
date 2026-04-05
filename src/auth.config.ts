@@ -3,6 +3,7 @@ import Google from "next-auth/providers/google"
 
 // Edge-compatible config — no Prisma imports here
 export const authConfig: NextAuthConfig = {
+  session: { strategy: "jwt" },
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
