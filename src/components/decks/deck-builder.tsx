@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { validateDeck, type DeckCardEntry } from "@/lib/deck-validation"
 import type { Card, UniqueCard, Deck, DeckCard } from "@/generated/prisma/client"
-import { PlusIcon, MinusIcon, SaveIcon, AlertTriangleIcon, CheckCircleIcon, SearchIcon } from "lucide-react"
+import { PlusIcon, MinusIcon, SaveIcon, AlertTriangleIcon, CheckCircleIcon, SearchIcon, LinkIcon, CheckIcon } from "lucide-react"
 
 type Variant = { variantId: string; language: string; imageUrl: string; artist: string; isCollectorArt: boolean }
 
@@ -41,6 +41,18 @@ export function DeckBuilder({ heroes, initialDeck }: Props) {
   const [searchResults, setSearchResults] = useState<Card[]>([])
   const [searching, setSearching] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  const shareUrl = initialDeck?.isPublic && initialDeck?.shareToken
+    ? `${typeof window !== "undefined" ? window.location.origin : ""}/deck/${initialDeck.shareToken}`
+    : null
+
+  function copyLink() {
+    if (!shareUrl) return
+    navigator.clipboard.writeText(shareUrl)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   const heroCard = heroes.find((h) => h.id === heroCardId) ?? null
   const validation = validateDeck(heroCard, deckCards)
@@ -137,6 +149,12 @@ export function DeckBuilder({ heroes, initialDeck }: Props) {
           <Button variant="outline" size="sm" onClick={() => setIsPublic(!isPublic)}>
             {isPublic ? "Público" : "Privado"}
           </Button>
+          {isPublic && shareUrl && (
+            <Button variant="outline" size="sm" onClick={copyLink}>
+              {copied ? <CheckIcon className="size-4" /> : <LinkIcon className="size-4" />}
+              {copied ? "Copiado!" : "Copiar link"}
+            </Button>
+          )}
           <Button onClick={save} disabled={saving || !name.trim() || !heroCardId}>
             <SaveIcon className="size-4" />
             {saving ? "Salvando..." : "Salvar"}
