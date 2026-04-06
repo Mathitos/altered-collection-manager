@@ -11,7 +11,8 @@
     "db:migrate": "prisma migrate dev",
     "db:seed": "bun --bun run prisma/seed.ts",
     "db:studio": "prisma studio",
-    "test": "bun test"
+    "test": "bun test",
+    "import:cards": "bun --bun run scripts/import-altered-api.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
