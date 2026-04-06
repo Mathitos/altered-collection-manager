@@ -111,23 +111,26 @@ async function fetchPage(url: string, attempt = 0): Promise<ApiResponse> {
 
 async function fetchUniques(queryRef: string, faction: string): Promise<ApiUniqueCard[]> {
   const results: ApiUniqueCard[] = []
+  const MAX_PAGES = 10 // API cap: 1000 items total (10 × 108)
 
-  const params = new URLSearchParams({
-    itemsPerPage: String(PAGE_SIZE),
-    query: queryRef,
-    locale: LOCALE,
-  })
-  params.append("factions[]", faction)
-  params.append("rarity[]", "UNIQUE")
+  for (let page = 1; page <= MAX_PAGES; page++) {
+    const params = new URLSearchParams({
+      page: String(page),
+      itemsPerPage: String(PAGE_SIZE),
+      query: queryRef,
+      locale: LOCALE,
+    })
+    params.append("factions[]", faction)
+    params.append("rarity[]", "UNIQUE")
 
-  let url: string | undefined = `${BASE_URL}/cards?${params}`
+    const data = await fetchPage(`${BASE_URL}/cards?${params}`)
+    const items = data["hydra:member"]
+    results.push(...items)
 
-  while (url) {
-    const data = await fetchPage(url)
-    results.push(...data["hydra:member"])
-    const next = data["hydra:view"]?.["hydra:next"]
-    url = next ? `${BASE_URL}${next}` : undefined
-    if (url) await new Promise((r) => setTimeout(r, 2000))
+    // Last page reached before hitting the cap
+    if (items.length < PAGE_SIZE) break
+
+    if (page < MAX_PAGES) await new Promise((r) => setTimeout(r, 2000))
   }
 
   return results
