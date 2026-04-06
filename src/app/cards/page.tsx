@@ -1,5 +1,7 @@
 import { Suspense } from "react"
 import { prisma } from "@/lib/prisma"
+
+export const dynamic = "force-dynamic"
 import { CardThumbnail } from "@/components/cards/card-thumbnail"
 import { CardFilters } from "@/components/cards/card-filters"
 import { Button } from "@/components/ui/button"
