@@ -89,7 +89,7 @@ describe("validateDeck", () => {
     const rares = Array.from({ length: 16 }, (_, i) => ({
       cardId: `rare-${i}`,
       quantity: 1,
-      card: makeCard({ id: `rare-${i}`, name: `Rare ${i}`, rarity: "R1" }),
+      card: makeCard({ id: `rare-${i}`, name: `Rare ${i}`, rarity: "R" }),
     }))
     const result = validateDeck(makeHero(), [...cards, ...rares])
     expect(result.valid).toBe(false)
@@ -101,7 +101,7 @@ describe("validateDeck", () => {
     const rares = Array.from({ length: 15 }, (_, i) => ({
       cardId: `rare-${i}`,
       quantity: 1,
-      card: makeCard({ id: `rare-${i}`, name: `Rare ${i}`, rarity: "R1" }),
+      card: makeCard({ id: `rare-${i}`, name: `Rare ${i}`, rarity: "R" }),
     }))
     const result = validateDeck(makeHero(), [...cards, ...rares])
     expect(result.errors.some((e) => e.rule === "maxRares")).toBe(false)
@@ -124,7 +124,7 @@ describe("validateDeck", () => {
     const rares = Array.from({ length: 15 }, (_, i) => ({
       cardId: `rare-${i}`,
       quantity: 1,
-      card: makeCard({ id: `rare-${i}`, name: `Rare ${i}`, rarity: "R1" }),
+      card: makeCard({ id: `rare-${i}`, name: `Rare ${i}`, rarity: "R" }),
     }))
     const result = validateDeck(makeHero(), [...commons, ...rares])
     expect(result.stats.total).toBe(39)

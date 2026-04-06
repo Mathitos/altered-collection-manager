@@ -113,8 +113,15 @@ function parseReference(ref: string): ParsedRef | null {
     return { collection, cardVariantType, faction, collectionNumber, rarity: "U", uniqueId, isUnique: true }
   }
 
-  // Regular: C, R1, R2, E, etc.
-  return { collection, cardVariantType, faction, collectionNumber, rarity: raritySuffix, uniqueId: null, isUnique: false }
+  // Rarity mapping from reference suffix to DB rarity code:
+  //   C  → C  (Common)
+  //   R1 → R  (Rare — standard rare art)
+  //   R2 → F  (Faction-shifted — alternate rare art, same card as R1 with different image)
+  //   E  → E  (Exalted)
+  const RARITY_MAP: Record<string, string> = { C: "C", R1: "R", R2: "F", E: "E" }
+  const rarity = RARITY_MAP[raritySuffix] ?? raritySuffix
+
+  return { collection, cardVariantType, faction, collectionNumber, rarity, uniqueId: null, isUnique: false }
 }
 
 // ── API Fetching ───────────────────────────────────────────────────────────
