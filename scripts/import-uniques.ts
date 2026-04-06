@@ -21,7 +21,7 @@ import { PrismaPg } from "@prisma/adapter-pg"
 
 const BASE_URL = "https://api.altered.gg"
 const LOCALE = "en-us"
-const PAGE_SIZE = 1000
+const PAGE_SIZE = 108
 
 const args = process.argv.slice(2)
 const dryRun = args.includes("--dry-run")
@@ -111,8 +111,16 @@ async function fetchPage(url: string, attempt = 0): Promise<ApiResponse> {
 
 async function fetchUniques(queryRef: string, faction: string): Promise<ApiUniqueCard[]> {
   const results: ApiUniqueCard[] = []
-  let url: string | undefined =
-    `${BASE_URL}/cards?factions[]=${faction}&itemsPerPage=${PAGE_SIZE}&query=${queryRef}&rarity[]=UNIQUE&locale=${LOCALE}`
+
+  const params = new URLSearchParams({
+    itemsPerPage: String(PAGE_SIZE),
+    query: queryRef,
+    locale: LOCALE,
+  })
+  params.append("factions[]", faction)
+  params.append("rarity[]", "UNIQUE")
+
+  let url: string | undefined = `${BASE_URL}/cards?${params}`
 
   while (url) {
     const data = await fetchPage(url)

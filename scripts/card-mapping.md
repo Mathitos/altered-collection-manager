@@ -90,25 +90,17 @@ Exemplo: `"Sneaky Salamander"` — qual é o efeito desta carta?
 
 ---
 
-### 4. Carta Unique tem faction diferente da família
-```json
-{
-  "reference": "ALT_EOLE_B_AX_106_U_4244",
-  "cardFamilyReference": "AX_106",
-  "name": "Sneaky Salamander",
-  "mainFaction": { "reference": "LY" }  ← LY, mas a família é AX_106!
-}
-```
-A carta regular `AX_106` é fação `AX`, mas a Unique é fação `LY`.
-Isso é intencional (Unique cross-faction)?
+### 4. Carta Unique tem faction diferente da família — RESOLVIDO
+
+Sim, é intencional. Unique cards são cross-faction por design. A `mainFaction` da Unique pode ser diferente da família base. Por isso, buscamos uniques por CADA fação separadamente.
 
 ---
 
-### 5. isCollectorArt — como identificar?
-Atualmente uso `refSuffix === "R2"` para marcar como collector art.
-Mas há casos como `ALT_COREKS_B_AX_*` que parece ser uma coleção inteira de arte alternativa.
+### 5. isCollectorArt — RESOLVIDO
 
-Qual é a regra correta para `isCollectorArt`?
+Regra aplicada:
+- Cartas do tipo B de coleções normais (CORE, ALIZE, etc.) → `isCollectorArt: false`
+- Cartas do tipo P, A e COREKS → `isCollectorArt: true`
 
 ---
 
@@ -237,6 +229,75 @@ Qual é a regra correta para `isCollectorArt`?
   ]
 }
 ```
+
+---
+
+## Importação de Unique Cards
+
+### Estratégia de busca
+
+A API retorna no máximo 1000 resultados por query. Como cada carta pode ter uniques em múltiplas fações, a busca é feita **por fação**:
+
+1. Para cada `(collection, collectionNumber)` no banco que tenha cartas R ou F:
+   - Pegar a fação do card R → usar como referência da query (ex: `ALT_BISE_B_LY_49_R1`)
+   - Coletar todas as fações distintas do grupo (R e F podem ter fações diferentes)
+2. Para cada fação do grupo, fazer uma query separada:
+   ```
+   GET /cards?factions[]={faction}&query={R1_ref}&rarity[]=UNIQUE&itemsPerPage=1000
+   ```
+3. Resultado: até 1000 uniques por fação × 2 fações = até 2000 uniques por família
+
+### Estrutura da referência Unique
+
+```
+ALT_BISE_B_LY_49_U_5159
+ ^    ^    ^ ^   ^  ^  ^
+ |    |    | |   |  |  └─ uniqueId (instância individual)
+ |    |    | |   |  └─── rarity = "U"
+ |    |    | |   └────── collectionNumber
+ |    |    | └────────── faction (pode diferir da carta base)
+ |    |    └──────────── cardVariantType = "B"
+ |    └───────────────── collection
+ └────────────────────── "ALT"
+```
+
+### Campos de status
+
+Unique cards podem ter status mutáveis — sempre atualizar no upsert:
+- `isSuspended`: carta suspensa temporariamente
+- `isErrated`: regras da carta foram erratadas
+- `isBanned`: carta banida do formato
+
+### Escala dos dados
+
+- 110 famílias (collection + collectionNumber) com R/F no banco
+- ~630 queries API no total (110 × ~5.7 fações médias)
+- ~1000 uniques por query → ~630.000 unique cards no total
+
+---
+
+## Rate Limiting da API (Cloudflare)
+
+### Comportamento observado (2026-04-06)
+
+- **Limite:** ~25-30 requests por janela de ~30s
+- **Erro:** HTTP 429, Cloudflare Error 1015
+- **retry_after header:** 30s (mas recuperação real pode levar vários minutos após burst)
+- **Bloqueio prolongado:** acumular muitas requisições consecutivas leva a bloqueio de ~5-10 min mesmo após esperar o retry_after
+
+### Configuração atual do script
+
+- `itemsPerPage=1000` → 1 request por query (vs 10 com 108/página)
+- 30s de delay entre queries
+- Retry com backoff exponencial em caso de 429
+
+### Tempo estimado de importação completa
+
+~5.25 horas (630 queries × 30s), sem interrupções.
+
+### Recomendação ao re-executar
+
+Se houver erros de rate limit em série (575+ erros), aguardar **30 minutos** antes de rodar novamente. O script é idempotente — re-executar não duplica dados.
 
 ---
 
