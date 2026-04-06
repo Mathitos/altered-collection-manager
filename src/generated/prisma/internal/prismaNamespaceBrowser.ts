@@ -119,7 +119,10 @@ export const UniqueCardScalarFieldEnum = {
   supportText: 'supportText',
   flavorText: 'flavorText',
   translations: 'translations',
-  variants: 'variants'
+  variants: 'variants',
+  isSuspended: 'isSuspended',
+  isErrated: 'isErrated',
+  isBanned: 'isBanned'
 } as const
 
 export type UniqueCardScalarFieldEnum = (typeof UniqueCardScalarFieldEnum)[keyof typeof UniqueCardScalarFieldEnum]

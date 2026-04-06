@@ -55,6 +55,9 @@ model UniqueCard {
   flavorText       String?
   translations     Json?
   variants         Json?
+  isSuspended      Boolean  @default(false)
+  isErrated        Boolean  @default(false)
+  isBanned         Boolean  @default(false)
 
   deckCards        DeckCard[]
   userCollections  UserCollection[]

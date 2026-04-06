@@ -15,6 +15,7 @@
     "import:cards": "bun --bun run scripts/import-altered-api.ts",
     "db:clear": "bun --bun run scripts/clear-db.ts",
     "import:variants": "bun --bun run scripts/import-variants.ts",
+    "import:uniques": "bun --bun run scripts/import-uniques.ts",
     "migrate": "bun --bun run scripts/migrate.ts"
   },
   "dependencies": {

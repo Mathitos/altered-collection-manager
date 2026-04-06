@@ -503,10 +503,6 @@ export type DeckUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.DeckScalarWhereInput | Prisma.DeckScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type DeckCreateNestedOneWithoutCardsInput = {
   create?: Prisma.XOR<Prisma.DeckCreateWithoutCardsInput, Prisma.DeckUncheckedCreateWithoutCardsInput>
   connectOrCreate?: Prisma.DeckCreateOrConnectWithoutCardsInput

@@ -1158,7 +1158,10 @@ export const UniqueCardScalarFieldEnum = {
   supportText: 'supportText',
   flavorText: 'flavorText',
   translations: 'translations',
-  variants: 'variants'
+  variants: 'variants',
+  isSuspended: 'isSuspended',
+  isErrated: 'isErrated',
+  isBanned: 'isBanned'
 } as const
 
 export type UniqueCardScalarFieldEnum = (typeof UniqueCardScalarFieldEnum)[keyof typeof UniqueCardScalarFieldEnum]
@@ -1341,6 +1344,13 @@ export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -1351,13 +1361,6 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 

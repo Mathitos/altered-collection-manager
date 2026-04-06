@@ -63,6 +63,9 @@ export type UniqueCardMinAggregateOutputType = {
   abilityText: string | null
   supportText: string | null
   flavorText: string | null
+  isSuspended: boolean | null
+  isErrated: boolean | null
+  isBanned: boolean | null
 }
 
 export type UniqueCardMaxAggregateOutputType = {
@@ -82,6 +85,9 @@ export type UniqueCardMaxAggregateOutputType = {
   abilityText: string | null
   supportText: string | null
   flavorText: string | null
+  isSuspended: boolean | null
+  isErrated: boolean | null
+  isBanned: boolean | null
 }
 
 export type UniqueCardCountAggregateOutputType = {
@@ -103,6 +109,9 @@ export type UniqueCardCountAggregateOutputType = {
   flavorText: number
   translations: number
   variants: number
+  isSuspended: number
+  isErrated: number
+  isBanned: number
   _all: number
 }
 
@@ -144,6 +153,9 @@ export type UniqueCardMinAggregateInputType = {
   abilityText?: true
   supportText?: true
   flavorText?: true
+  isSuspended?: true
+  isErrated?: true
+  isBanned?: true
 }
 
 export type UniqueCardMaxAggregateInputType = {
@@ -163,6 +175,9 @@ export type UniqueCardMaxAggregateInputType = {
   abilityText?: true
   supportText?: true
   flavorText?: true
+  isSuspended?: true
+  isErrated?: true
+  isBanned?: true
 }
 
 export type UniqueCardCountAggregateInputType = {
@@ -184,6 +199,9 @@ export type UniqueCardCountAggregateInputType = {
   flavorText?: true
   translations?: true
   variants?: true
+  isSuspended?: true
+  isErrated?: true
+  isBanned?: true
   _all?: true
 }
 
@@ -292,6 +310,9 @@ export type UniqueCardGroupByOutputType = {
   flavorText: string | null
   translations: runtime.JsonValue | null
   variants: runtime.JsonValue | null
+  isSuspended: boolean
+  isErrated: boolean
+  isBanned: boolean
   _count: UniqueCardCountAggregateOutputType | null
   _avg: UniqueCardAvgAggregateOutputType | null
   _sum: UniqueCardSumAggregateOutputType | null
@@ -336,6 +357,9 @@ export type UniqueCardWhereInput = {
   flavorText?: Prisma.StringNullableFilter<"UniqueCard"> | string | null
   translations?: Prisma.JsonNullableFilter<"UniqueCard">
   variants?: Prisma.JsonNullableFilter<"UniqueCard">
+  isSuspended?: Prisma.BoolFilter<"UniqueCard"> | boolean
+  isErrated?: Prisma.BoolFilter<"UniqueCard"> | boolean
+  isBanned?: Prisma.BoolFilter<"UniqueCard"> | boolean
   deckCards?: Prisma.DeckCardListRelationFilter
   userCollections?: Prisma.UserCollectionListRelationFilter
 }
@@ -359,6 +383,9 @@ export type UniqueCardOrderByWithRelationInput = {
   flavorText?: Prisma.SortOrderInput | Prisma.SortOrder
   translations?: Prisma.SortOrderInput | Prisma.SortOrder
   variants?: Prisma.SortOrderInput | Prisma.SortOrder
+  isSuspended?: Prisma.SortOrder
+  isErrated?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
   deckCards?: Prisma.DeckCardOrderByRelationAggregateInput
   userCollections?: Prisma.UserCollectionOrderByRelationAggregateInput
 }
@@ -386,6 +413,9 @@ export type UniqueCardWhereUniqueInput = Prisma.AtLeast<{
   flavorText?: Prisma.StringNullableFilter<"UniqueCard"> | string | null
   translations?: Prisma.JsonNullableFilter<"UniqueCard">
   variants?: Prisma.JsonNullableFilter<"UniqueCard">
+  isSuspended?: Prisma.BoolFilter<"UniqueCard"> | boolean
+  isErrated?: Prisma.BoolFilter<"UniqueCard"> | boolean
+  isBanned?: Prisma.BoolFilter<"UniqueCard"> | boolean
   deckCards?: Prisma.DeckCardListRelationFilter
   userCollections?: Prisma.UserCollectionListRelationFilter
 }, "id" | "collection_collectionNumber_uniqueId">
@@ -409,6 +439,9 @@ export type UniqueCardOrderByWithAggregationInput = {
   flavorText?: Prisma.SortOrderInput | Prisma.SortOrder
   translations?: Prisma.SortOrderInput | Prisma.SortOrder
   variants?: Prisma.SortOrderInput | Prisma.SortOrder
+  isSuspended?: Prisma.SortOrder
+  isErrated?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
   _count?: Prisma.UniqueCardCountOrderByAggregateInput
   _avg?: Prisma.UniqueCardAvgOrderByAggregateInput
   _max?: Prisma.UniqueCardMaxOrderByAggregateInput
@@ -438,6 +471,9 @@ export type UniqueCardScalarWhereWithAggregatesInput = {
   flavorText?: Prisma.StringNullableWithAggregatesFilter<"UniqueCard"> | string | null
   translations?: Prisma.JsonNullableWithAggregatesFilter<"UniqueCard">
   variants?: Prisma.JsonNullableWithAggregatesFilter<"UniqueCard">
+  isSuspended?: Prisma.BoolWithAggregatesFilter<"UniqueCard"> | boolean
+  isErrated?: Prisma.BoolWithAggregatesFilter<"UniqueCard"> | boolean
+  isBanned?: Prisma.BoolWithAggregatesFilter<"UniqueCard"> | boolean
 }
 
 export type UniqueCardCreateInput = {
@@ -459,6 +495,9 @@ export type UniqueCardCreateInput = {
   flavorText?: string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: boolean
+  isErrated?: boolean
+  isBanned?: boolean
   deckCards?: Prisma.DeckCardCreateNestedManyWithoutUniqueCardInput
   userCollections?: Prisma.UserCollectionCreateNestedManyWithoutUniqueCardInput
 }
@@ -482,6 +521,9 @@ export type UniqueCardUncheckedCreateInput = {
   flavorText?: string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: boolean
+  isErrated?: boolean
+  isBanned?: boolean
   deckCards?: Prisma.DeckCardUncheckedCreateNestedManyWithoutUniqueCardInput
   userCollections?: Prisma.UserCollectionUncheckedCreateNestedManyWithoutUniqueCardInput
 }
@@ -505,6 +547,9 @@ export type UniqueCardUpdateInput = {
   flavorText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isErrated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deckCards?: Prisma.DeckCardUpdateManyWithoutUniqueCardNestedInput
   userCollections?: Prisma.UserCollectionUpdateManyWithoutUniqueCardNestedInput
 }
@@ -528,6 +573,9 @@ export type UniqueCardUncheckedUpdateInput = {
   flavorText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isErrated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deckCards?: Prisma.DeckCardUncheckedUpdateManyWithoutUniqueCardNestedInput
   userCollections?: Prisma.UserCollectionUncheckedUpdateManyWithoutUniqueCardNestedInput
 }
@@ -551,6 +599,9 @@ export type UniqueCardCreateManyInput = {
   flavorText?: string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: boolean
+  isErrated?: boolean
+  isBanned?: boolean
 }
 
 export type UniqueCardUpdateManyMutationInput = {
@@ -572,6 +623,9 @@ export type UniqueCardUpdateManyMutationInput = {
   flavorText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isErrated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UniqueCardUncheckedUpdateManyInput = {
@@ -593,6 +647,9 @@ export type UniqueCardUncheckedUpdateManyInput = {
   flavorText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isErrated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UniqueCardCollectionCollectionNumberUniqueIdCompoundUniqueInput = {
@@ -620,6 +677,9 @@ export type UniqueCardCountOrderByAggregateInput = {
   flavorText?: Prisma.SortOrder
   translations?: Prisma.SortOrder
   variants?: Prisma.SortOrder
+  isSuspended?: Prisma.SortOrder
+  isErrated?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
 }
 
 export type UniqueCardAvgOrderByAggregateInput = {
@@ -649,6 +709,9 @@ export type UniqueCardMaxOrderByAggregateInput = {
   abilityText?: Prisma.SortOrder
   supportText?: Prisma.SortOrder
   flavorText?: Prisma.SortOrder
+  isSuspended?: Prisma.SortOrder
+  isErrated?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
 }
 
 export type UniqueCardMinOrderByAggregateInput = {
@@ -668,6 +731,9 @@ export type UniqueCardMinOrderByAggregateInput = {
   abilityText?: Prisma.SortOrder
   supportText?: Prisma.SortOrder
   flavorText?: Prisma.SortOrder
+  isSuspended?: Prisma.SortOrder
+  isErrated?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
 }
 
 export type UniqueCardSumOrderByAggregateInput = {
@@ -683,6 +749,10 @@ export type UniqueCardSumOrderByAggregateInput = {
 export type UniqueCardNullableScalarRelationFilter = {
   is?: Prisma.UniqueCardWhereInput | null
   isNot?: Prisma.UniqueCardWhereInput | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type UniqueCardCreateNestedOneWithoutDeckCardsInput = {
@@ -736,6 +806,9 @@ export type UniqueCardCreateWithoutDeckCardsInput = {
   flavorText?: string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: boolean
+  isErrated?: boolean
+  isBanned?: boolean
   userCollections?: Prisma.UserCollectionCreateNestedManyWithoutUniqueCardInput
 }
 
@@ -758,6 +831,9 @@ export type UniqueCardUncheckedCreateWithoutDeckCardsInput = {
   flavorText?: string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: boolean
+  isErrated?: boolean
+  isBanned?: boolean
   userCollections?: Prisma.UserCollectionUncheckedCreateNestedManyWithoutUniqueCardInput
 }
 
@@ -796,6 +872,9 @@ export type UniqueCardUpdateWithoutDeckCardsInput = {
   flavorText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isErrated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   userCollections?: Prisma.UserCollectionUpdateManyWithoutUniqueCardNestedInput
 }
 
@@ -818,6 +897,9 @@ export type UniqueCardUncheckedUpdateWithoutDeckCardsInput = {
   flavorText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isErrated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   userCollections?: Prisma.UserCollectionUncheckedUpdateManyWithoutUniqueCardNestedInput
 }
 
@@ -840,6 +922,9 @@ export type UniqueCardCreateWithoutUserCollectionsInput = {
   flavorText?: string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: boolean
+  isErrated?: boolean
+  isBanned?: boolean
   deckCards?: Prisma.DeckCardCreateNestedManyWithoutUniqueCardInput
 }
 
@@ -862,6 +947,9 @@ export type UniqueCardUncheckedCreateWithoutUserCollectionsInput = {
   flavorText?: string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: boolean
+  isErrated?: boolean
+  isBanned?: boolean
   deckCards?: Prisma.DeckCardUncheckedCreateNestedManyWithoutUniqueCardInput
 }
 
@@ -900,6 +988,9 @@ export type UniqueCardUpdateWithoutUserCollectionsInput = {
   flavorText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isErrated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deckCards?: Prisma.DeckCardUpdateManyWithoutUniqueCardNestedInput
 }
 
@@ -922,6 +1013,9 @@ export type UniqueCardUncheckedUpdateWithoutUserCollectionsInput = {
   flavorText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   translations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isErrated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deckCards?: Prisma.DeckCardUncheckedUpdateManyWithoutUniqueCardNestedInput
 }
 
@@ -984,6 +1078,9 @@ export type UniqueCardSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   flavorText?: boolean
   translations?: boolean
   variants?: boolean
+  isSuspended?: boolean
+  isErrated?: boolean
+  isBanned?: boolean
   deckCards?: boolean | Prisma.UniqueCard$deckCardsArgs<ExtArgs>
   userCollections?: boolean | Prisma.UniqueCard$userCollectionsArgs<ExtArgs>
   _count?: boolean | Prisma.UniqueCardCountOutputTypeDefaultArgs<ExtArgs>
@@ -1008,6 +1105,9 @@ export type UniqueCardSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   flavorText?: boolean
   translations?: boolean
   variants?: boolean
+  isSuspended?: boolean
+  isErrated?: boolean
+  isBanned?: boolean
 }, ExtArgs["result"]["uniqueCard"]>
 
 export type UniqueCardSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1029,6 +1129,9 @@ export type UniqueCardSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   flavorText?: boolean
   translations?: boolean
   variants?: boolean
+  isSuspended?: boolean
+  isErrated?: boolean
+  isBanned?: boolean
 }, ExtArgs["result"]["uniqueCard"]>
 
 export type UniqueCardSelectScalar = {
@@ -1050,9 +1153,12 @@ export type UniqueCardSelectScalar = {
   flavorText?: boolean
   translations?: boolean
   variants?: boolean
+  isSuspended?: boolean
+  isErrated?: boolean
+  isBanned?: boolean
 }
 
-export type UniqueCardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "collection" | "collectionNumber" | "uniqueId" | "rarity" | "faction" | "type" | "mainCost" | "recallCost" | "forestPower" | "mountainPower" | "oceanPower" | "name" | "abilityText" | "supportText" | "flavorText" | "translations" | "variants", ExtArgs["result"]["uniqueCard"]>
+export type UniqueCardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "collection" | "collectionNumber" | "uniqueId" | "rarity" | "faction" | "type" | "mainCost" | "recallCost" | "forestPower" | "mountainPower" | "oceanPower" | "name" | "abilityText" | "supportText" | "flavorText" | "translations" | "variants" | "isSuspended" | "isErrated" | "isBanned", ExtArgs["result"]["uniqueCard"]>
 export type UniqueCardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   deckCards?: boolean | Prisma.UniqueCard$deckCardsArgs<ExtArgs>
   userCollections?: boolean | Prisma.UniqueCard$userCollectionsArgs<ExtArgs>
@@ -1086,6 +1192,9 @@ export type $UniqueCardPayload<ExtArgs extends runtime.Types.Extensions.Internal
     flavorText: string | null
     translations: runtime.JsonValue | null
     variants: runtime.JsonValue | null
+    isSuspended: boolean
+    isErrated: boolean
+    isBanned: boolean
   }, ExtArgs["result"]["uniqueCard"]>
   composites: {}
 }
@@ -1529,6 +1638,9 @@ export interface UniqueCardFieldRefs {
   readonly flavorText: Prisma.FieldRef<"UniqueCard", 'String'>
   readonly translations: Prisma.FieldRef<"UniqueCard", 'Json'>
   readonly variants: Prisma.FieldRef<"UniqueCard", 'Json'>
+  readonly isSuspended: Prisma.FieldRef<"UniqueCard", 'Boolean'>
+  readonly isErrated: Prisma.FieldRef<"UniqueCard", 'Boolean'>
+  readonly isBanned: Prisma.FieldRef<"UniqueCard", 'Boolean'>
 }
     
 
