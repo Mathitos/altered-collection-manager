@@ -119,20 +119,54 @@ async function fetchPage(url: string): Promise<ApiResponse> {
   return res.json()
 }
 
-async function fetchAllCards(): Promise<AlteredCard[]> {
-  const all: AlteredCard[] = []
-  let url: string | undefined = `${BASE_URL}/cards?itemsPerPage=${PAGE_SIZE}&locale=${locale}`
+async function fetchCardSets(): Promise<{ reference: string; name: string }[]> {
+  const res = await fetch(`${BASE_URL}/card_sets?itemsPerPage=100&locale=${locale}`, {
+    headers: { Accept: "application/ld+json" },
+  })
+  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`)
+  const data = await res.json()
+  return data["hydra:member"] ?? []
+}
+
+async function fetchCardsForSet(setRef: string): Promise<AlteredCard[]> {
+  const cards: AlteredCard[] = []
+  let url: string | undefined =
+    `${BASE_URL}/cards?itemsPerPage=${PAGE_SIZE}&locale=${locale}&cardSet[]=${setRef}`
 
   while (url) {
-    process.stdout.write(`\r  Fetching page... (${all.length} cards so far)`)
     const data = await fetchPage(url)
-    all.push(...data["hydra:member"])
+    cards.push(...data["hydra:member"])
     const next = data["hydra:view"]?.["hydra:next"]
     url = next ? `${BASE_URL}${next}` : undefined
     if (url) await new Promise((r) => setTimeout(r, 200))
   }
 
-  console.log(`\r  Done fetching: ${all.length} cards total.           `)
+  return cards
+}
+
+async function fetchAllCards(): Promise<AlteredCard[]> {
+  const sets = await fetchCardSets()
+  console.log(`Found ${sets.length} card sets: ${sets.map((s) => s.reference).join(", ")}\n`)
+
+  const all: AlteredCard[] = []
+  const seen = new Set<string>()
+
+  for (const set of sets) {
+    process.stdout.write(`  Fetching set ${set.reference} (${set.name})...`)
+    const cards = await fetchCardsForSet(set.reference)
+    let newCards = 0
+    for (const card of cards) {
+      if (!seen.has(card.reference)) {
+        seen.add(card.reference)
+        all.push(card)
+        newCards++
+      }
+    }
+    console.log(` ${newCards} new cards (${all.length} total)`)
+    await new Promise((r) => setTimeout(r, 300))
+  }
+
+  console.log(`\nDone fetching: ${all.length} unique cards across all sets.`)
   return all
 }
 
