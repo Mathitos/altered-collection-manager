@@ -108,9 +108,10 @@ export async function POST(req: NextRequest) {
       } else {
         await prisma.card.upsert({
           where: {
-            collection_collectionNumber_rarity: {
+            collection_collectionNumber_faction_rarity: {
               collection: row.collection,
               collectionNumber: parseInt(row.collection_number),
+              faction: row.faction,
               rarity: row.rarity,
             },
           },
