@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Altered TCG Collection Manager
 
-## Getting Started
+Catálogo e construtor de decks para o Altered TCG. Preserva o acervo de cartas e permite montar decks com validação das regras do formato Standard.
 
-First, run the development server:
+## Features
+
+- Catálogo completo de cartas com busca e filtros (fação, tipo, raridade, coleção)
+- Construtor de decks com validação em tempo real
+- Compartilhamento de decks via link público
+- Autenticação com Google
+
+## Stack
+
+| Camada | Tecnologia |
+|---|---|
+| Frontend | Next.js (App Router) + TypeScript |
+| Estilo | Tailwind CSS + shadcn/ui |
+| ORM | Prisma 7 |
+| Banco | PostgreSQL via Supabase |
+| Auth | NextAuth.js v5 + Google |
+| Hosting | Vercel |
+
+## Setup local
+
+### Pré-requisitos
+
+- [Bun](https://bun.sh/) 1.x
+- Conta no [Supabase](https://supabase.com/) (PostgreSQL)
+- Projeto no [Google Cloud Console](https://console.cloud.google.com/) com OAuth 2.0
+
+### 1. Clonar e instalar
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Mathitos/altered-collection-manager.git
+cd altered-collection-manager/src
+bun install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Variáveis de ambiente
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Crie o arquivo `src/.env`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/postgres"
+AUTH_SECRET="gere com: bun -e \"console.log(require('crypto').randomBytes(32).toString('base64'))\""
+AUTH_GOOGLE_ID="seu-google-client-id"
+AUTH_GOOGLE_SECRET="seu-google-client-secret"
+AUTH_TRUST_HOST=true
+```
 
-## Learn More
+> **Atenção:** Caracteres especiais na senha devem ser URL-encoded (`%` → `%25`, `!` → `%21`, `*` → `%2A`, `&` → `%26`).
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Banco de dados
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Como o Prisma 7 usa adaptador direto (sem pgBouncer), use o **Session Pooler** do Supabase (porta 5432).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Para criar as tabelas, execute o SQL gerado:
 
-## Deploy on Vercel
+```bash
+bunx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Cole o output no **SQL Editor** do Supabase e execute.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. Rodar
+
+```bash
+bun run dev
+```
+
+Acesse [http://localhost:3000](http://localhost:3000).
+
+## Importar cartas
+
+### Via API oficial do Altered TCG
+
+```bash
+bun run import:cards
+# Com locale específico:
+bun run import:cards --locale=pt-br
+# Dry run (sem escrever no DB):
+bun run import:cards --dry-run
+```
+
+### Via CSV
+
+```bash
+curl -X POST http://localhost:3000/api/admin/import \
+  -H "x-admin-secret: $ADMIN_SECRET" \
+  -F "file=@cards.csv"
+```
+
+Formato do CSV: `collection, collection_number, rarity, name, faction, type, main_cost, recall_cost, forest_power, mountain_power, ocean_power, ability_text, support_text, flavor_text, translations (JSON), variants (JSON), unique_id`.
+
+### Seed de exemplo
+
+```bash
+bun run db:seed
+```
+
+## Testes
+
+```bash
+bun test
+```
+
+## Deploy (Vercel)
+
+1. Importe o repositório no Vercel
+2. Configure o **Root Directory** como `src`
+3. Adicione as variáveis de ambiente no painel da Vercel
+4. O build script já inclui `prisma generate`:
+   ```json
+   "build": "prisma generate && next build"
+   ```
+
+## Google OAuth
+
+No [Google Cloud Console](https://console.cloud.google.com/):
+
+- **Authorized JavaScript origins:** `http://localhost:3000`, `https://seu-app.vercel.app`
+- **Authorized redirect URIs:** `http://localhost:3000/api/auth/callback/google`, `https://seu-app.vercel.app/api/auth/callback/google`
+
+## Regras de validação de deck (Standard)
+
+| Regra | Limite |
+|---|---|
+| Mínimo de cartas | 39 (excluindo Herói) |
+| Cópias por nome | máx. 3 |
+| Fação | mono-fação |
+| Rares | máx. 15 |
+| Uniques | máx. 3 |
