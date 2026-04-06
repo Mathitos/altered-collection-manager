@@ -314,10 +314,9 @@ async function upsertCard(parsed: ParsedRef, card: AlteredCard): Promise<void> {
   } else {
     await prisma.card.upsert({
       where: {
-        collection_collectionNumber_faction_rarity: {
+        collection_collectionNumber_rarity: {
           collection: parsed.collection,
           collectionNumber: parsed.collectionNumber,
-          faction: parsed.faction,
           rarity: parsed.rarity,
         },
       },

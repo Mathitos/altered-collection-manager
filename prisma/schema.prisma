@@ -32,7 +32,7 @@ model Card {
   userCollections  UserCollection[]
   decksAsHero      Deck[]   @relation("DeckHero")
 
-  @@unique([collection, collectionNumber, faction, rarity])
+  @@unique([collection, collectionNumber, rarity])
   @@map("cards")
 }
 

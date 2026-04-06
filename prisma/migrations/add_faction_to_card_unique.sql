@@ -1,8 +1,7 @@
--- Migration: add faction to Card unique constraint
--- Run this in the Supabase SQL Editor
+-- REVERT: restore original unique constraint (faction was incorrectly added)
+-- Run this in the Supabase SQL Editor if the previous migration was applied.
 
--- DropIndex
-DROP INDEX "cards_collection_collectionNumber_rarity_key";
+DROP INDEX IF EXISTS "cards_collection_collectionNumber_faction_rarity_key";
 
--- CreateIndex
-CREATE UNIQUE INDEX "cards_collection_collectionNumber_faction_rarity_key" ON "cards"("collection", "collectionNumber", "faction", "rarity");
+CREATE UNIQUE INDEX IF NOT EXISTS "cards_collection_collectionNumber_rarity_key"
+  ON "cards"("collection", "collectionNumber", "rarity");
