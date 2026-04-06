@@ -21,7 +21,7 @@ import { PrismaPg } from "@prisma/adapter-pg"
 
 const BASE_URL = "https://api.altered.gg"
 const LOCALE = "en-us"
-const PAGE_SIZE = 108
+const PAGE_SIZE = 1000
 
 const args = process.argv.slice(2)
 const dryRun = args.includes("--dry-run")
@@ -91,10 +91,20 @@ function mapCardType(ref: string): string {
   return map[ref.toUpperCase()] ?? ref
 }
 
-async function fetchPage(url: string): Promise<ApiResponse> {
+async function fetchPage(url: string, attempt = 0): Promise<ApiResponse> {
   const res = await fetch(url, {
     headers: { Accept: "application/ld+json", "Accept-Language": LOCALE },
   })
+
+  if (res.status === 429) {
+    const retryAfter = parseInt(res.headers.get("retry-after") ?? "30")
+    const wait = Math.max(retryAfter, 30) * 1000 * (attempt + 1) // exponential
+    process.stdout.write(`\n  Rate limited — waiting ${wait / 1000}s (attempt ${attempt + 1})...\n`)
+    await new Promise((r) => setTimeout(r, wait))
+    if (attempt >= 4) throw new Error("Rate limit persists after 5 retries")
+    return fetchPage(url, attempt + 1)
+  }
+
   if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`)
   return res.json()
 }
@@ -109,7 +119,7 @@ async function fetchUniques(queryRef: string, faction: string): Promise<ApiUniqu
     results.push(...data["hydra:member"])
     const next = data["hydra:view"]?.["hydra:next"]
     url = next ? `${BASE_URL}${next}` : undefined
-    if (url) await new Promise((r) => setTimeout(r, 200))
+    if (url) await new Promise((r) => setTimeout(r, 2000))
   }
 
   return results
@@ -166,7 +176,6 @@ async function main() {
 
   let queriesDone = 0
   let imported = 0
-  let updated = 0
   let errors = 0
 
   for (const group of groups) {
@@ -177,6 +186,17 @@ async function main() {
       try {
         const uniques = await fetchUniques(queryRef, faction)
 
+        // Build batch payload for all valid uniques in this query
+        type Row = {
+          collection: string; collectionNumber: number; uniqueId: number
+          name: string; faction: string; type: string; rarity: string
+          mainCost: number | null; recallCost: number | null
+          forestPower: number | null; mountainPower: number | null; oceanPower: number | null
+          isSuspended: boolean; isErrated: boolean; isBanned: boolean
+          variants: object
+        }
+        const rows: Row[] = []
+
         for (const card of uniques) {
           const parsed = parseUniqueReference(card.reference)
           if (!parsed) continue
@@ -184,7 +204,11 @@ async function main() {
           const imageUrl = getImageUrl(card)
           const el = card.elements ?? {}
 
-          const payload = {
+          rows.push({
+            collection: parsed.collection,
+            collectionNumber: parsed.collectionNumber,
+            uniqueId: parsed.uniqueId,
+            rarity: "U",
             name: card.name,
             faction: parsed.faction,
             type: mapCardType(card.cardType?.reference ?? "CHARACTER"),
@@ -199,35 +223,52 @@ async function main() {
             variants: imageUrl
               ? [{ variantId: card.reference, language: LOCALE.split("-")[0], imageUrl, isCollectorArt: false }]
               : [],
-          }
+          })
+        }
 
-          if (!dryRun) {
-            const key = {
-              collection: parsed.collection,
-              collectionNumber: parsed.collectionNumber,
-              uniqueId: parsed.uniqueId,
-            }
-            const existing = await prisma.uniqueCard.findUnique({
-              where: { collection_collectionNumber_uniqueId: key },
-              select: { id: true },
-            })
-
-            await prisma.uniqueCard.upsert({
-              where: { collection_collectionNumber_uniqueId: key },
-              update: payload,
-              create: { ...key, rarity: "U", ...payload },
-            })
-
-            if (existing) updated++ else imported++
-          } else {
-            imported++
-          }
+        if (!dryRun && rows.length > 0) {
+          // Single bulk upsert per batch — one roundtrip instead of N×2
+          const result = await prisma.$executeRaw`
+            INSERT INTO unique_cards (
+              id, collection, "collectionNumber", "uniqueId", rarity, name, faction, type,
+              "mainCost", "recallCost", "forestPower", "mountainPower", "oceanPower",
+              "isSuspended", "isErrated", "isBanned", variants
+            )
+            SELECT
+              gen_random_uuid(),
+              r.collection, r."collectionNumber", r."uniqueId", r.rarity, r.name, r.faction, r.type,
+              r."mainCost", r."recallCost", r."forestPower", r."mountainPower", r."oceanPower",
+              r."isSuspended", r."isErrated", r."isBanned", r.variants
+            FROM jsonb_to_recordset(${JSON.stringify(rows)}::jsonb) AS r(
+              collection text, "collectionNumber" int, "uniqueId" int, rarity text,
+              name text, faction text, type text,
+              "mainCost" int, "recallCost" int, "forestPower" int, "mountainPower" int, "oceanPower" int,
+              "isSuspended" boolean, "isErrated" boolean, "isBanned" boolean,
+              variants jsonb
+            )
+            ON CONFLICT (collection, "collectionNumber", "uniqueId") DO UPDATE SET
+              name         = EXCLUDED.name,
+              faction      = EXCLUDED.faction,
+              type         = EXCLUDED.type,
+              "mainCost"   = EXCLUDED."mainCost",
+              "recallCost" = EXCLUDED."recallCost",
+              "forestPower"   = EXCLUDED."forestPower",
+              "mountainPower" = EXCLUDED."mountainPower",
+              "oceanPower"    = EXCLUDED."oceanPower",
+              "isSuspended" = EXCLUDED."isSuspended",
+              "isErrated"   = EXCLUDED."isErrated",
+              "isBanned"    = EXCLUDED."isBanned",
+              variants      = EXCLUDED.variants
+          `
+          imported += rows.length
+        } else {
+          imported += rows.length
         }
 
         queriesDone++
-        process.stdout.write(`\r  Progress: ${queriesDone}/${totalQueries} | imported: ${imported} | updated: ${updated}`)
+        process.stdout.write(`\r  Progress: ${queriesDone}/${totalQueries} | upserted: ${imported}`)
 
-        await new Promise((r) => setTimeout(r, 150))
+        await new Promise((r) => setTimeout(r, 30000))
       } catch (err) {
         errors++
         console.error(`\n  Error — query=${queryRef} faction=${faction}: ${err}`)
@@ -237,7 +278,7 @@ async function main() {
 
   console.log(`\n\nDone!`)
   console.log(`  Queries made: ${queriesDone}/${totalQueries}`)
-  console.log(dryRun ? `  Would import: ${imported}` : `  Imported: ${imported} | Updated: ${updated}`)
+  console.log(dryRun ? `  Would upsert: ${imported}` : `  Upserted: ${imported}`)
   console.log(`  Errors:   ${errors}`)
 }
 
