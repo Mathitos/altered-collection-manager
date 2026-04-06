@@ -1,6 +1,14 @@
 /**
  * Import Altered TCG cards from the official API
- * Usage: bun run import:cards [--dry-run]
+ *
+ * Usage:
+ *   bun run import:cards                        # fetch from API, save cache, import
+ *   bun run import:cards --dry-run              # fetch from API, save cache, no DB writes
+ *   bun run import:cards --from-cache=<file>    # load from cached JSON, import (no API call)
+ *   bun run import:cards --from-cache=<file> --dry-run
+ *
+ * The raw API response is always saved to scripts/cache/api-cards-TIMESTAMP.json on the
+ * first fetch. Use --from-cache to re-import from that file without hitting the API again.
  *
  * Only imports cards from main collections (CORE, ALIZE, BISE, CYCLONE, DUSTER, EOLE)
  * with card type "B" (base). Alternate art (A), promos (P) and non-main sets are
@@ -9,7 +17,7 @@
 
 import { PrismaClient } from "../src/generated/prisma/client"
 import { PrismaPg } from "@prisma/adapter-pg"
-import { writeFileSync } from "fs"
+import { writeFileSync, readFileSync, mkdirSync } from "fs"
 import { join } from "path"
 
 const BASE_URL = "https://api.altered.gg"
@@ -21,6 +29,10 @@ const MAIN_CARD_TYPE = "B"
 
 const args = process.argv.slice(2)
 const dryRun = args.includes("--dry-run")
+const fromCacheArg = args.find((a) => a.startsWith("--from-cache="))
+const fromCacheFile = fromCacheArg ? fromCacheArg.split("=")[1] : null
+
+const CACHE_DIR = join(import.meta.dir, "cache")
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! })
 const prisma = new PrismaClient({ adapter } as ConstructorParameters<typeof PrismaClient>[0])
@@ -180,7 +192,22 @@ async function fetchAllCards(): Promise<AlteredCard[]> {
   }
 
   console.log(`\nTotal: ${all.length} unique cards from main collections.`)
+
+  // Save raw API response to cache for future re-imports (no need to call API again)
+  mkdirSync(CACHE_DIR, { recursive: true })
+  const cachePath = join(CACHE_DIR, `api-cards-${Date.now()}.json`)
+  writeFileSync(cachePath, JSON.stringify(all, null, 2))
+  console.log(`Raw API response saved to: ${cachePath}`)
+
   return all
+}
+
+function loadFromCache(filePath: string): AlteredCard[] {
+  console.log(`Loading cards from cache: ${filePath}`)
+  const raw = readFileSync(filePath, "utf-8")
+  const cards = JSON.parse(raw) as AlteredCard[]
+  console.log(`Loaded ${cards.length} cards from cache.\n`)
+  return cards
 }
 
 // ── Classification ─────────────────────────────────────────────────────────
@@ -310,10 +337,11 @@ async function main() {
   console.log(`Altered TCG Card Importer`)
   console.log(`Collections: ${[...MAIN_COLLECTIONS].join(", ")}`)
   console.log(`Card type filter: ${MAIN_CARD_TYPE} (base only)`)
+  console.log(`Source: ${fromCacheFile ? `cache (${fromCacheFile})` : "API (response will be cached)"}`)
   console.log(dryRun ? "Mode: DRY RUN\n" : "Mode: LIVE\n")
   console.log("─".repeat(50))
 
-  const cards = await fetchAllCards()
+  const cards = fromCacheFile ? loadFromCache(fromCacheFile) : await fetchAllCards()
   const { toImport, skipped } = classifyCards(cards)
 
   console.log(`\nTo import: ${toImport.length} | Skipped: ${skipped.length}`)
