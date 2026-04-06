@@ -13,7 +13,9 @@
     "db:studio": "prisma studio",
     "test": "bun test",
     "import:cards": "bun --bun run scripts/import-altered-api.ts",
-    "db:clear": "bun --bun run scripts/clear-db.ts"
+    "db:clear": "bun --bun run scripts/clear-db.ts",
+    "import:variants": "bun --bun run scripts/import-variants.ts",
+    "migrate": "bun --bun run scripts/migrate.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
