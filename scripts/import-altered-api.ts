@@ -8,6 +8,8 @@
 
 import { PrismaClient } from "../src/generated/prisma/client"
 import { PrismaPg } from "@prisma/adapter-pg"
+import { writeFileSync } from "fs"
+import { join } from "path"
 
 const BASE_URL = "https://api.altered.gg"
 const DEFAULT_LOCALE = "en-us"
@@ -152,13 +154,39 @@ type CardGroup = {
   isUnique: boolean
 }
 
-function groupCards(cards: AlteredCard[]): Map<string, CardGroup> {
+type SkippedReason = "missing_cardType" | "missing_faction" | "missing_rarity" | "missing_familyRef"
+
+type SkippedEntry = {
+  reference: string
+  name: string
+  reason: SkippedReason
+  cardType?: string
+  faction?: string
+  rarity?: string
+  cardFamilyReference?: string
+}
+
+function groupCards(cards: AlteredCard[]): { groups: Map<string, CardGroup>; skipped: SkippedEntry[] } {
   const groups = new Map<string, CardGroup>()
+  const skipped: SkippedEntry[] = []
 
   for (const card of cards) {
-    // Skip cards missing essential fields
-    if (!card.cardType?.reference || !card.mainFaction?.reference || !card.rarity?.reference) continue
-    if (!card.cardFamilyReference) continue
+    if (!card.cardType?.reference) {
+      skipped.push({ reference: card.reference, name: card.name, reason: "missing_cardType", faction: card.mainFaction?.reference, rarity: card.rarity?.reference, cardFamilyReference: card.cardFamilyReference })
+      continue
+    }
+    if (!card.mainFaction?.reference) {
+      skipped.push({ reference: card.reference, name: card.name, reason: "missing_faction", cardType: card.cardType.reference, rarity: card.rarity?.reference, cardFamilyReference: card.cardFamilyReference })
+      continue
+    }
+    if (!card.rarity?.reference) {
+      skipped.push({ reference: card.reference, name: card.name, reason: "missing_rarity", cardType: card.cardType.reference, faction: card.mainFaction.reference, cardFamilyReference: card.cardFamilyReference })
+      continue
+    }
+    if (!card.cardFamilyReference) {
+      skipped.push({ reference: card.reference, name: card.name, reason: "missing_familyRef", cardType: card.cardType.reference, faction: card.mainFaction.reference, rarity: card.rarity.reference })
+      continue
+    }
 
     const rarityCode = mapRarity(card.rarity.reference)
     const setCode = extractSetCode(card.reference)
@@ -207,7 +235,7 @@ function groupCards(cards: AlteredCard[]): Map<string, CardGroup> {
     }
   }
 
-  return groups
+  return { groups, skipped }
 }
 
 // ── Upsert to DB ───────────────────────────────────────────────────────────
@@ -261,9 +289,22 @@ async function main() {
   console.log("─".repeat(50))
 
   const cards = await fetchAllCards()
-  const groups = groupCards(cards)
+  const { groups, skipped } = groupCards(cards)
 
-  console.log(`Grouped into ${groups.size} unique card entries.\n`)
+  console.log(`Grouped into ${groups.size} unique card entries.`)
+  console.log(`Skipped: ${skipped.length} cards missing required fields.\n`)
+
+  // Save skipped cards to file for analysis
+  if (skipped.length > 0) {
+    const skippedPath = join(import.meta.dir, `skipped-cards-${locale}-${Date.now()}.json`)
+    const byReason = skipped.reduce<Record<string, SkippedEntry[]>>((acc, s) => {
+      acc[s.reason] = acc[s.reason] ?? []
+      acc[s.reason].push(s)
+      return acc
+    }, {})
+    writeFileSync(skippedPath, JSON.stringify({ total: skipped.length, byReason, entries: skipped }, null, 2))
+    console.log(`  Skipped cards saved to: ${skippedPath}\n`)
+  }
 
   if (dryRun) {
     console.log("Dry run — no DB writes.")
@@ -288,6 +329,7 @@ async function main() {
 
   console.log(`\n\nDone!`)
   console.log(`  Imported: ${imported}`)
+  console.log(`  Skipped:  ${skipped.length} (see skipped-cards-*.json)`)
   console.log(`  Errors:   ${errors}`)
 }
 
