@@ -346,17 +346,15 @@ async function main() {
 
   console.log(`\nTo import: ${toImport.length} | Skipped: ${skipped.length}`)
 
-  // Save skipped cards to file
-  if (skipped.length > 0) {
-    const outPath = join(import.meta.dir, `skipped-cards-${Date.now()}.json`)
-    const byReason = skipped.reduce<Record<string, SkippedCard[]>>((acc, s) => {
-      acc[s.reason] = acc[s.reason] ?? []
-      acc[s.reason].push(s)
-      return acc
-    }, {})
-    writeFileSync(outPath, JSON.stringify({ total: skipped.length, byReason }, null, 2))
-    console.log(`Skipped cards saved to: ${outPath}`)
-  }
+  // Save skipped cards report (overwritten on every run)
+  const skippedPath = join(import.meta.dir, "skipped-cards.json")
+  const byReason = skipped.reduce<Record<string, SkippedCard[]>>((acc, s) => {
+    acc[s.reason] = acc[s.reason] ?? []
+    acc[s.reason].push(s)
+    return acc
+  }, {})
+  writeFileSync(skippedPath, JSON.stringify({ total: skipped.length, byReason }, null, 2))
+  console.log(`Skipped cards saved to: ${skippedPath}`)
 
   if (dryRun) {
     console.log("\nDry run — no DB writes.")
@@ -365,11 +363,21 @@ async function main() {
 
   let imported = 0
   let errors = 0
+  const processedCards: { reference: string; name: string; collection: string; collectionNumber: number; rarity: string; faction: string; type: string }[] = []
 
   for (const { parsed, card } of toImport) {
     try {
       await upsertCard(parsed, card)
       imported++
+      processedCards.push({
+        reference: card.reference,
+        name: card.name,
+        collection: parsed.collection,
+        collectionNumber: parsed.collectionNumber,
+        rarity: parsed.rarity,
+        faction: parsed.faction,
+        type: mapCardType(card.cardType!.reference),
+      })
       if (imported % 50 === 0) {
         process.stdout.write(`\r  Progress: ${imported}/${toImport.length}`)
       }
@@ -379,9 +387,15 @@ async function main() {
     }
   }
 
+  // Save processed cards report (overwritten on every run)
+  const processedPath = join(import.meta.dir, "processed-cards.json")
+  writeFileSync(processedPath, JSON.stringify({ total: processedCards.length, cards: processedCards }, null, 2))
+
   console.log(`\n\nDone!`)
   console.log(`  Imported: ${imported}`)
   console.log(`  Errors:   ${errors}`)
+  console.log(`  Processed cards saved to: ${processedPath}`)
+  console.log(`  Skipped  cards saved to:  ${skippedPath}`)
 }
 
 main()
