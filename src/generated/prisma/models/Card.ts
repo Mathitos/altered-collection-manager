@@ -354,7 +354,7 @@ export type CardOrderByWithRelationInput = {
 
 export type CardWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  collection_collectionNumber_rarity?: Prisma.CardCollectionCollectionNumberRarityCompoundUniqueInput
+  collection_collectionNumber_faction_rarity?: Prisma.CardCollectionCollectionNumberFactionRarityCompoundUniqueInput
   AND?: Prisma.CardWhereInput | Prisma.CardWhereInput[]
   OR?: Prisma.CardWhereInput[]
   NOT?: Prisma.CardWhereInput | Prisma.CardWhereInput[]
@@ -377,7 +377,7 @@ export type CardWhereUniqueInput = Prisma.AtLeast<{
   deckCards?: Prisma.DeckCardListRelationFilter
   userCollections?: Prisma.UserCollectionListRelationFilter
   decksAsHero?: Prisma.DeckListRelationFilter
-}, "id" | "collection_collectionNumber_rarity">
+}, "id" | "collection_collectionNumber_faction_rarity">
 
 export type CardOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -579,9 +579,10 @@ export type CardUncheckedUpdateManyInput = {
   variants?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
-export type CardCollectionCollectionNumberRarityCompoundUniqueInput = {
+export type CardCollectionCollectionNumberFactionRarityCompoundUniqueInput = {
   collection: string
   collectionNumber: number
+  faction: string
   rarity: string
 }
 
