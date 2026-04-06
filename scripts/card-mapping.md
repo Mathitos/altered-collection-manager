@@ -44,19 +44,27 @@ ALT_EOLECB_A_AX_106_C
 
 ## Dúvidas / Incertezas ❓
 
-### 1. Variant type na referência (A, B, P)
+### 1. Variant type na referência (A, B, P) — RESOLVIDO
 ```
 ALT_EOLECB_A_AX_106_C  ← "A"
 ALT_CORE_B_AX_01_C     ← "B"
 ALT_WCF25_P_AX_01_C    ← "P"
 ```
-- `B` = base/standard?
-- `A` = alternate art?
-- `P` = promo?
+Regras definidas e implementadas em `import-variants.ts`:
 
-**Impacto:** devo criar registros separados para A e B da mesma carta, ou agrupá-los como variantes?
+| Tipo | Significado | Comportamento |
+|------|-------------|---------------|
+| `B`  | Base/standard | Card próprio no DB. **Pulado** pelo import-variants — exceto sets mapeados em `ALTERNATE_SET_TO_BASE` (ex: COREKS → CORE) |
+| `P`  | Promo | **Variante** da carta B com mesma collection/number/faction/rarity. Linkada via array `variants` |
+| `A`  | Alternate art | Mesmo tratamento do P — variante da carta B correspondente |
 
-Atualmente agrupo por `(cardSet, collectionNumber, rarity)`, então `ALT_EOLECB_A_AX_106_C` e `ALT_EOLECB_B_AX_106_C` (se existir) virariam 1 registro com 2 imagens no array `variants`. É isso mesmo?
+**Exemplos:**
+```
+ALT_CORE_B_BR_01_C   → carta base no DB (collection=CORE, num=1, faction=BR, rarity=C)
+ALT_CORE_P_BR_01_C   → variante promo da carta acima (mesmo rarity=C)
+ALT_CORE_P_BR_01_R1  → variante promo da carta CORE/1/BR/R (rarity=R, não C!)
+ALT_COREKS_B_AX_04_R1 → variante art alternativa de CORE/4/AX/R (COREKS → CORE)
+```
 
 ---
 

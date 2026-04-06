@@ -144,16 +144,22 @@ async function main() {
         const parsed = parseReference(variant.reference)
         if (!parsed) continue
 
-        // Skip B-type unless it belongs to a known alternate-art set (e.g. COREKS → CORE)
+        // Variant type rules:
+        //   P (promo)  → always a variant of the B card with the same collection/number/faction/rarity
+        //   B (base)   → separate DB card, skip — EXCEPT sets in ALTERNATE_SET_TO_BASE (e.g. COREKS → CORE)
+        //   A (alt art)→ treated same as P
         if (parsed.cardVariantType === "B" && !(parsed.collection in ALTERNATE_SET_TO_BASE)) continue
 
         const imageUrl = getImageUrl(variant)
         if (!imageUrl) continue
 
-        // Resolve base collection: COREKS variants belong to CORE cards in the DB
+        // Resolve base collection for the DB lookup:
+        //   - COREKS variants → look up in CORE
+        //   - everything else → use the collection of the card we queried (cCard.collection)
         const baseCollection = ALTERNATE_SET_TO_BASE[parsed.collection] ?? cCard.collection
 
-        // Match to DB card by (base collection, collectionNumber, faction from variant, rarity from variant)
+        // Match to DB card by (base collection, collectionNumber, faction, rarity) — rarity is preserved
+        // e.g. ALT_CORE_P_BR_01_R1 links to CORE/1/BR/R, not to CORE/1/BR/C
         const targetKey = `${baseCollection}_${parsed.collectionNumber}_${parsed.faction}_${parsed.rarity}`
         const targetCard = cardIndex.get(targetKey)
         if (!targetCard) continue
