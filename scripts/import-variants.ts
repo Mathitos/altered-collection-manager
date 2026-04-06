@@ -1,17 +1,17 @@
 /**
  * Import promo/alternate art variants for existing cards
  *
- * For each unique (collection, collectionNumber) in the DB, fetches
- * `/cards/{reference}/variants` using the Common (C) rarity reference.
+ * For each Common (C) card in the DB, fetches `/cards/{reference}/variants`.
+ * One API call per (collection, collectionNumber, faction) group.
  *
  * Rules:
- *   - B-type variants → skip (these are already separate DB cards)
- *   - P/A-type variants → link to the DB card matching (collection, collectionNumber, rarity)
+ *   - B-type variants → skip (already separate DB cards)
+ *   - P/A-type variants → link to DB card matching (collection, collectionNumber, faction, rarity)
  *
  * Example:
- *   Call:  ALT_BISE_B_LY_49_C/variants
- *   Returns: ALT_BISE_B_LY_49_R2 (type=B → skip)
- *            ALT_TCS3_P_LY_49_R1 (type=P, rarity=R1 → variant of BISE_49_R in DB)
+ *   Call:    ALT_BISE_B_LY_49_C/variants
+ *   Returns: ALT_BISE_B_LY_49_R2  (type=B → skip)
+ *            ALT_TCS3_P_LY_49_R1  (type=P, faction=LY, rarity=R1 → variant of BISE/49/LY/R)
  *
  * Usage:
  *   bun run import:variants            # fetch from API, update DB
@@ -20,7 +20,7 @@
 
 import { PrismaClient } from "../src/generated/prisma/client"
 import { PrismaPg } from "@prisma/adapter-pg"
-import { writeFileSync, mkdirSync } from "fs"
+import { writeFileSync } from "fs"
 import { join } from "path"
 
 const BASE_URL = "https://api.altered.gg"
@@ -29,39 +29,32 @@ const LOCALE = "en-us"
 const args = process.argv.slice(2)
 const dryRun = args.includes("--dry-run")
 
-const SCRIPTS_DIR = import.meta.dir
-
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! })
 const prisma = new PrismaClient({ adapter } as ConstructorParameters<typeof PrismaClient>[0])
 
-// DB rarity → API rarity suffix (for building the reference string)
 const DB_TO_API_RARITY: Record<string, string> = { C: "C", R: "R1", F: "R2", E: "E", U: "U" }
-
-// API rarity suffix → DB rarity
 const API_TO_DB_RARITY: Record<string, string> = { C: "C", R1: "R", R2: "F", E: "E", U: "U" }
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
 type AlteredVariant = {
   reference: string
-  name?: string
   allImagePath?: Record<string, string>
   imagePath?: string
   [key: string]: unknown
 }
 
 type ParsedRef = {
-  collection: string
   cardVariantType: string
   faction: string
   collectionNumber: number
-  rarity: string // DB rarity
+  rarity: string
 }
 
 type ReportEntry = {
   baseRef: string
   variantRef: string
-  savedToCard: string // collection_number_rarity
+  savedToCard: string
   imageUrl: string
 }
 
@@ -71,17 +64,16 @@ function parseReference(ref: string): ParsedRef | null {
   const parts = ref.split("_")
   if (parts.length < 6 || parts[0] !== "ALT") return null
 
-  const collection = parts[1]
   const cardVariantType = parts[2]
   const faction = parts[3]
   const collectionNumber = parseInt(parts[4])
   if (isNaN(collectionNumber)) return null
 
   const raritySuffix = parts[5]
-  if (raritySuffix === "U") return null // Unique variants handled separately
+  if (raritySuffix === "U") return null
 
   const rarity = API_TO_DB_RARITY[raritySuffix] ?? raritySuffix
-  return { collection, cardVariantType, faction, collectionNumber, rarity }
+  return { cardVariantType, faction, collectionNumber, rarity }
 }
 
 function getImageUrl(variant: AlteredVariant): string | null {
@@ -113,33 +105,31 @@ async function main() {
   console.log(dryRun ? "Mode: DRY RUN\n" : "Mode: LIVE\n")
   console.log("─".repeat(50))
 
-  // Load all cards from DB
+  // Load all cards indexed by (collection, collectionNumber, faction, rarity)
   const dbCards = await prisma.card.findMany({
     select: { id: true, collection: true, collectionNumber: true, faction: true, rarity: true, variants: true },
-    orderBy: [{ collection: "asc" }, { collectionNumber: "asc" }],
+    orderBy: [{ collection: "asc" }, { collectionNumber: "asc" }, { faction: "asc" }],
   })
 
-  // Group by (collection, collectionNumber)
+  // Index for fast lookup: "COLLECTION_NUMBER_FACTION_RARITY" → card
   type DbCard = (typeof dbCards)[number]
-  const groups = new Map<string, DbCard[]>()
+  const cardIndex = new Map<string, DbCard>()
   for (const card of dbCards) {
-    const key = `${card.collection}_${card.collectionNumber}`
-    if (!groups.has(key)) groups.set(key, [])
-    groups.get(key)!.push(card)
+    cardIndex.set(`${card.collection}_${card.collectionNumber}_${card.faction}_${card.rarity}`, card)
   }
 
-  console.log(`Loaded ${dbCards.length} cards across ${groups.size} groups\n`)
+  // Use only C-rarity cards as API call targets (one per collection/number/faction group)
+  const cCards = dbCards.filter((c) => c.rarity === "C")
+
+  console.log(`Loaded ${dbCards.length} cards total, ${cCards.length} C-rarity cards to query\n`)
 
   let processed = 0
   let variantsAdded = 0
   let errors = 0
   const report: ReportEntry[] = []
 
-  for (const [, groupCards] of groups) {
-    // Use C rarity as representative; fall back to first card in group
-    const representative = groupCards.find((c) => c.rarity === "C") ?? groupCards[0]
-    const apiRarity = DB_TO_API_RARITY[representative.rarity] ?? representative.rarity
-    const baseRef = `ALT_${representative.collection}_B_${representative.faction}_${representative.collectionNumber}_${apiRarity}`
+  for (const cCard of cCards) {
+    const baseRef = `ALT_${cCard.collection}_B_${cCard.faction}_${cCard.collectionNumber}_C`
 
     try {
       const variants = await fetchVariants(baseRef)
@@ -154,8 +144,9 @@ async function main() {
         const imageUrl = getImageUrl(variant)
         if (!imageUrl) continue
 
-        // Find which DB card this variant belongs to by matching rarity
-        const targetCard = groupCards.find((c) => c.rarity === parsed.rarity)
+        // Match to DB card by (base collection, collectionNumber, faction from variant, rarity from variant)
+        const targetKey = `${cCard.collection}_${parsed.collectionNumber}_${parsed.faction}_${parsed.rarity}`
+        const targetCard = cardIndex.get(targetKey)
         if (!targetCard) continue
 
         // Skip if already stored
@@ -176,7 +167,7 @@ async function main() {
             where: { id: targetCard.id },
             data: { variants: updatedVariants },
           })
-          // Update in-memory so duplicate check works within same group
+          // Update index so duplicate check works if same card appears again
           ;(targetCard as { variants: unknown }).variants = updatedVariants
         }
 
@@ -184,14 +175,14 @@ async function main() {
         report.push({
           baseRef,
           variantRef: variant.reference,
-          savedToCard: `${targetCard.collection}_${targetCard.collectionNumber}_${targetCard.rarity}`,
+          savedToCard: `${targetCard.collection}_${targetCard.collectionNumber}_${targetCard.faction}_${targetCard.rarity}`,
           imageUrl,
         })
       }
 
       processed++
-      if (processed % 20 === 0) {
-        process.stdout.write(`\r  Progress: ${processed}/${groups.size} groups, ${variantsAdded} variants found`)
+      if (processed % 50 === 0) {
+        process.stdout.write(`\r  Progress: ${processed}/${cCards.length}, variants found: ${variantsAdded}`)
       }
 
       await new Promise((r) => setTimeout(r, 150))
@@ -201,14 +192,14 @@ async function main() {
     }
   }
 
-  const reportPath = join(SCRIPTS_DIR, "variant-report.json")
+  const reportPath = join(import.meta.dir, "variant-report.json")
   writeFileSync(reportPath, JSON.stringify({ total: report.length, variants: report }, null, 2))
 
   console.log(`\n\nDone!`)
-  console.log(`  Groups processed: ${processed}/${groups.size}`)
-  console.log(`  Variants added:   ${variantsAdded}`)
-  console.log(`  Errors:           ${errors}`)
-  console.log(`  Report saved to:  ${reportPath}`)
+  console.log(`  Cards queried:  ${processed}/${cCards.length}`)
+  console.log(`  Variants added: ${variantsAdded}`)
+  console.log(`  Errors:         ${errors}`)
+  console.log(`  Report saved:   ${reportPath}`)
 }
 
 main()
