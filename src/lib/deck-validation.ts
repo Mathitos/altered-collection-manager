@@ -42,7 +42,7 @@ export function validateDeck(
     uniqueCards.reduce((sum, dc) => sum + dc.quantity, 0)
 
   const rares = nonUniqueCards
-    .filter((dc) => dc.card?.rarity === "R")
+    .filter((dc) => dc.card?.rarity === "R1" || dc.card?.rarity === "R2")
     .reduce((sum, dc) => sum + dc.quantity, 0)
 
   const uniques = uniqueCards.reduce((sum, dc) => sum + dc.quantity, 0)

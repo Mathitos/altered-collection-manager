@@ -1,0 +1,671 @@
+[
+  {
+    "id": "01KH6E458GRPX2RSA1N3E772V9",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Character"
+    },
+    "cardSet": {
+      "@id": "/card_sets/EOLECB",
+      "@type": "CardSet",
+      "id": "01KH6E44GRCVN6CHNG9FY4KNXQ",
+      "reference": "EOLECB",
+      "name": "Roots of Corruption - Collector Booster"
+    },
+    "cardSubTypes": [],
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/b95483fe858434265c61",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Common"
+    },
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_106/JPG/en_US/8ae52b3ace6cd3eac2e12b03d29dde19.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_106/WEB_e05ffa333c1e29c90354c4371226bfc9",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_106/WEB_98bde1ac0b4268f399e6d87904a386ac",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_106/WEB_b88132ee5dceb63ccaab67cb273ee9bb"
+      ]
+    },
+    "qrUrlDetail": "https://qr.altered.gg/ALT_EOLECB_A_AX_106_C",
+    "mainFaction": {
+      "@id": "/factions/AX",
+      "@type": "Faction",
+      "reference": "AX",
+      "color": "#8c432a",
+      "id": "01GE7AC9XBG707G19F03A95TH1",
+      "name": "Axiom"
+    },
+    "name": "Sneaky Salamander",
+    "elements": {
+      "MAIN_COST": "1",
+      "RECALL_COST": "1",
+      "MOUNTAIN_POWER": "1",
+      "OCEAN_POWER": "0",
+      "FOREST_POWER": "1"
+    },
+    "isOwnerless": true,
+    "cardFamilyReference": "AX_106",
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_106/JPG/fr_FR/ede58fec650ebff68053e96e8d144cad.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_106/JPG/en_US/8ae52b3ace6cd3eac2e12b03d29dde19.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_106/JPG/it_IT/788cc8b297bd28bb7066d836cd6cfa6d.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_106/JPG/es_ES/91a6fa5a03fcc84f6a5c7bd1fcc2497c.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_106/JPG/de_DE/1c9b53226df383900ac3dc5a4c439e36.jpg"
+    },
+    "cardHistoryStatus": null,
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "reference": "ALT_EOLECB_A_AX_106_C",
+    "isSerialized": false,
+    "isParentSerialized": false,
+    "@id": "/cards/ALT_EOLECB_A_AX_106_C"
+  },
+  {
+    "id": "01KH6E458HGZ79546RNTGA0TYF",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Character"
+    },
+    "cardSet": {
+      "@id": "/card_sets/EOLECB",
+      "@type": "CardSet",
+      "id": "01KH6E44GRCVN6CHNG9FY4KNXQ",
+      "reference": "EOLECB",
+      "name": "Roots of Corruption - Collector Booster"
+    },
+    "cardSubTypes": [],
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/59e9c6d979096273730d",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_108/JPG/en_US/afbddb8a33784fcfcbc2ab31448833a1.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_108/WEB_77862bf7cba8f1d263ecca435a27300b",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_108/WEB_e85677da5f404002807c3e8fdac13dfc",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_108/WEB_d61e2a2ef05825acd9efabcf6ba99ab1"
+      ]
+    },
+    "qrUrlDetail": "https://qr.altered.gg/ALT_EOLECB_A_AX_108_R1",
+    "mainFaction": {
+      "@id": "/factions/AX",
+      "@type": "Faction",
+      "reference": "AX",
+      "color": "#8c432a",
+      "id": "01GE7AC9XBG707G19F03A95TH1",
+      "name": "Axiom"
+    },
+    "name": "Corrupted Paju",
+    "elements": {
+      "MAIN_COST": "2",
+      "RECALL_COST": "2",
+      "MOUNTAIN_POWER": "2",
+      "OCEAN_POWER": "0",
+      "FOREST_POWER": "2"
+    },
+    "isOwnerless": true,
+    "cardFamilyReference": "AX_108",
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_108/JPG/fr_FR/73b67f3dc7d9cf786599bf9f681c69e2.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_108/JPG/en_US/afbddb8a33784fcfcbc2ab31448833a1.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_108/JPG/it_IT/8dfd192510eae9f851e0af059db598a1.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_108/JPG/es_ES/57a3f043c0a7b4e274049495f0388c1b.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_108/JPG/de_DE/d33aba9dfed211c8a7c84ae80d178fbc.jpg"
+    },
+    "cardHistoryStatus": null,
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "reference": "ALT_EOLECB_A_AX_108_R1",
+    "isSerialized": false,
+    "isParentSerialized": false,
+    "@id": "/cards/ALT_EOLECB_A_AX_108_R1"
+  },
+  {
+    "id": "01KH6E458JFR2T4J59P3JYZPWN",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Character"
+    },
+    "cardSet": {
+      "@id": "/card_sets/EOLECB",
+      "@type": "CardSet",
+      "id": "01KH6E44GRCVN6CHNG9FY4KNXQ",
+      "reference": "EOLECB",
+      "name": "Roots of Corruption - Collector Booster"
+    },
+    "cardSubTypes": [],
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/59e9c6d979096273730d",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_122/JPG/en_US/3bf460d38f70a26ef9c1cd9828234e0f.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_122/WEB_015d1363573f8546bc1150db79cb7bc8",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_122/WEB_b2cbca111385622c31a1d8a63ccf37ae",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_122/WEB_57003c26a1af6ec318c51935ce00eae5"
+      ]
+    },
+    "qrUrlDetail": "https://qr.altered.gg/ALT_EOLECB_A_AX_122_R1",
+    "mainFaction": {
+      "@id": "/factions/AX",
+      "@type": "Faction",
+      "reference": "AX",
+      "color": "#8c432a",
+      "id": "01GE7AC9XBG707G19F03A95TH1",
+      "name": "Axiom"
+    },
+    "name": "Reka Welder",
+    "elements": {
+      "MAIN_COST": "3",
+      "RECALL_COST": "3",
+      "MOUNTAIN_POWER": "3",
+      "OCEAN_POWER": "3",
+      "FOREST_POWER": "3"
+    },
+    "isOwnerless": true,
+    "cardFamilyReference": "AX_122",
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_122/JPG/fr_FR/dd6c68917ad99810e8fbb4c3c3d592d5.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_122/JPG/en_US/3bf460d38f70a26ef9c1cd9828234e0f.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_122/JPG/it_IT/ea11872acb5578b7a54587eb8b15e31b.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_122/JPG/es_ES/5738db318f36ddf7c2ca96636e3a7590.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_122/JPG/de_DE/bd33e48138d9dd6249b827830d2561b9.jpg"
+    },
+    "cardHistoryStatus": null,
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "reference": "ALT_EOLECB_A_AX_122_R1",
+    "isSerialized": false,
+    "isParentSerialized": false,
+    "@id": "/cards/ALT_EOLECB_A_AX_122_R1"
+  },
+  {
+    "id": "01KH6E458HGZ79546RNTGA0TYJ",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9X35JXEQZJBBD6E4BKX",
+      "@type": "CardType",
+      "reference": "SPELL",
+      "id": "01GE7AC9X35JXEQZJBBD6E4BKX",
+      "name": "Spell"
+    },
+    "cardSet": {
+      "@id": "/card_sets/EOLECB",
+      "@type": "CardSet",
+      "id": "01KH6E44GRCVN6CHNG9FY4KNXQ",
+      "reference": "EOLECB",
+      "name": "Roots of Corruption - Collector Booster"
+    },
+    "cardSubTypes": [],
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/b95483fe858434265c61",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Common"
+    },
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_118/JPG/en_US/7516cccee9a7f52c40831a6c011909d6.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_118/WEB_eac0112d81840568c4971ee9b70a57ae",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_118/WEB_55f69c58cbee68b27493e945fcb0a0cb"
+      ]
+    },
+    "qrUrlDetail": "https://qr.altered.gg/ALT_EOLECB_A_AX_118_C",
+    "mainFaction": {
+      "@id": "/factions/AX",
+      "@type": "Faction",
+      "reference": "AX",
+      "color": "#8c432a",
+      "id": "01GE7AC9XBG707G19F03A95TH1",
+      "name": "Axiom"
+    },
+    "name": "Emergency Burst",
+    "elements": {
+      "MAIN_COST": "3",
+      "RECALL_COST": "3",
+      "MOUNTAIN_POWER": "0",
+      "OCEAN_POWER": "0",
+      "FOREST_POWER": "0"
+    },
+    "isOwnerless": true,
+    "cardFamilyReference": "AX_118",
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_118/JPG/fr_FR/3adf947835641b2b04262d3bec9bfcc2.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_118/JPG/en_US/7516cccee9a7f52c40831a6c011909d6.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_118/JPG/it_IT/c5f42b5c89c22ec6da429280c4f58b8a.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_118/JPG/es_ES/086d950b86d31c614685297de695200b.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_AX_118/JPG/de_DE/7dfec73ed3ead603866332d4596f310b.jpg"
+    },
+    "cardHistoryStatus": null,
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "reference": "ALT_EOLECB_A_AX_118_C",
+    "isSerialized": false,
+    "isParentSerialized": false,
+    "@id": "/cards/ALT_EOLECB_A_AX_118_C"
+  },
+  {
+    "id": "01KH6E45A0XH110NH8YM10NMM2",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Character"
+    },
+    "cardSet": {
+      "@id": "/card_sets/EOLECB",
+      "@type": "CardSet",
+      "id": "01KH6E44GRCVN6CHNG9FY4KNXQ",
+      "reference": "EOLECB",
+      "name": "Roots of Corruption - Collector Booster"
+    },
+    "cardSubTypes": [],
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/b95483fe858434265c61",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Common"
+    },
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_107/JPG/en_US/0fd14ba211a085c7de2480e7ece9324d.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_107/WEB_af401ab55d8036ec0f05a8abcf78e9f0",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_107/WEB_4aa37eeaa1fac5928ac85654a7fb95fb",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_107/WEB_5d8c2cc5c200ef2deeebcd58085b0baa"
+      ]
+    },
+    "qrUrlDetail": "https://qr.altered.gg/ALT_EOLECB_A_BR_107_C",
+    "mainFaction": {
+      "@id": "/factions/BR",
+      "@type": "Faction",
+      "reference": "BR",
+      "color": "#c32637",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T4",
+      "name": "Bravos"
+    },
+    "name": "Guiding Ocelot",
+    "elements": {
+      "MAIN_COST": "2",
+      "RECALL_COST": "2",
+      "MOUNTAIN_POWER": "1",
+      "OCEAN_POWER": "1",
+      "FOREST_POWER": "1"
+    },
+    "isOwnerless": true,
+    "cardFamilyReference": "BR_107",
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_107/JPG/fr_FR/cbe3284bc69a5024a2cc6914d7ee9fe9.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_107/JPG/en_US/0fd14ba211a085c7de2480e7ece9324d.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_107/JPG/it_IT/a6d34d15de26ee6a51e335d4a2bca735.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_107/JPG/es_ES/8a13dc0785896a1f20966d6de27e569b.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_107/JPG/de_DE/021df9f97a2c061170714dcb47497019.jpg"
+    },
+    "cardHistoryStatus": null,
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "reference": "ALT_EOLECB_A_BR_107_C",
+    "isSerialized": false,
+    "isParentSerialized": false,
+    "@id": "/cards/ALT_EOLECB_A_BR_107_C"
+  },
+  {
+    "id": "01KH6E45A0XH110NH8YM10NMMB",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Character"
+    },
+    "cardSet": {
+      "@id": "/card_sets/EOLECB",
+      "@type": "CardSet",
+      "id": "01KH6E44GRCVN6CHNG9FY4KNXQ",
+      "reference": "EOLECB",
+      "name": "Roots of Corruption - Collector Booster"
+    },
+    "cardSubTypes": [],
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/59e9c6d979096273730d",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_108/JPG/en_US/d98d3daf3ae6d90afb8919b845a2eae0.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_108/WEB_c289de032c451485b9a9f5b0fe1c54b8",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_108/WEB_d0a18453f5386001e97afcf039baa718",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_108/WEB_56dbfb4258bc749db04d8de76d36aa80"
+      ]
+    },
+    "qrUrlDetail": "https://qr.altered.gg/ALT_EOLECB_A_BR_108_R1",
+    "mainFaction": {
+      "@id": "/factions/BR",
+      "@type": "Faction",
+      "reference": "BR",
+      "color": "#c32637",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T4",
+      "name": "Bravos"
+    },
+    "name": "Corrupted Aoife",
+    "elements": {
+      "MAIN_COST": "2",
+      "RECALL_COST": "2",
+      "MOUNTAIN_POWER": "0",
+      "OCEAN_POWER": "3",
+      "FOREST_POWER": "3"
+    },
+    "isOwnerless": true,
+    "cardFamilyReference": "BR_108",
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_108/JPG/fr_FR/f74372026643365ed7389afdda05862d.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_108/JPG/en_US/d98d3daf3ae6d90afb8919b845a2eae0.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_108/JPG/it_IT/34f2ca1829120f9ad8fb2cff8a8bffd5.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_108/JPG/es_ES/13a31dc07f390b61e9c3d241961087d8.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_108/JPG/de_DE/fba27713e0538a70b861096cc2c10b8d.jpg"
+    },
+    "cardHistoryStatus": null,
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "reference": "ALT_EOLECB_A_BR_108_R1",
+    "isSerialized": false,
+    "isParentSerialized": false,
+    "@id": "/cards/ALT_EOLECB_A_BR_108_R1"
+  },
+  {
+    "id": "01KH6E45A18TRPZMC0SJVATD0A",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Character"
+    },
+    "cardSet": {
+      "@id": "/card_sets/EOLECB",
+      "@type": "CardSet",
+      "id": "01KH6E44GRCVN6CHNG9FY4KNXQ",
+      "reference": "EOLECB",
+      "name": "Roots of Corruption - Collector Booster"
+    },
+    "cardSubTypes": [],
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/b95483fe858434265c61",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Common"
+    },
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_117/JPG/en_US/09d45f729926f563a94fef031a180bc7.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_117/WEB_00ff90f37df5c19f2013c7f44b2b98bb",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_117/WEB_07ea910c9bed12ead85e4822c29c8f0d",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_117/WEB_29d6a17ccd51e55dd158e8ecd98689af"
+      ]
+    },
+    "qrUrlDetail": "https://qr.altered.gg/ALT_EOLECB_A_BR_117_C",
+    "mainFaction": {
+      "@id": "/factions/BR",
+      "@type": "Faction",
+      "reference": "BR",
+      "color": "#c32637",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T4",
+      "name": "Bravos"
+    },
+    "name": "Stern Sentinel",
+    "elements": {
+      "MAIN_COST": "3",
+      "RECALL_COST": "2",
+      "MOUNTAIN_POWER": "3",
+      "OCEAN_POWER": "0",
+      "FOREST_POWER": "3"
+    },
+    "isOwnerless": true,
+    "cardFamilyReference": "BR_117",
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_117/JPG/fr_FR/9c15231681309b26acee4893cdbe729d.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_117/JPG/en_US/09d45f729926f563a94fef031a180bc7.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_117/JPG/it_IT/521307e30ff5612036bb87aeb98c06ba.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_117/JPG/es_ES/126c2d2a22c7783ff8a6b1f2c7b81603.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_117/JPG/de_DE/b3277752321aef9acae8b45413ba40df.jpg"
+    },
+    "cardHistoryStatus": null,
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "reference": "ALT_EOLECB_A_BR_117_C",
+    "isSerialized": false,
+    "isParentSerialized": false,
+    "@id": "/cards/ALT_EOLECB_A_BR_117_C"
+  },
+  {
+    "id": "01KH6E45A18TRPZMC0SJVATD07",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Character"
+    },
+    "cardSet": {
+      "@id": "/card_sets/EOLECB",
+      "@type": "CardSet",
+      "id": "01KH6E44GRCVN6CHNG9FY4KNXQ",
+      "reference": "EOLECB",
+      "name": "Roots of Corruption - Collector Booster"
+    },
+    "cardSubTypes": [],
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/59e9c6d979096273730d",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_113/JPG/en_US/bf669c82fbbef2b71de4e7cc003018c5.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_113/WEB_61ebffcce8a631013c73d88584577f1a",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_113/WEB_04c36aa20071ca276782f276c22f73b1",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_113/WEB_15c6be040fc19d54ac34f4c789c9e18a"
+      ]
+    },
+    "qrUrlDetail": "https://qr.altered.gg/ALT_EOLECB_A_BR_113_R1",
+    "mainFaction": {
+      "@id": "/factions/BR",
+      "@type": "Faction",
+      "reference": "BR",
+      "color": "#c32637",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T4",
+      "name": "Bravos"
+    },
+    "name": "Sekhmet",
+    "elements": {
+      "MAIN_COST": "3",
+      "RECALL_COST": "4",
+      "MOUNTAIN_POWER": "2",
+      "OCEAN_POWER": "3",
+      "FOREST_POWER": "2"
+    },
+    "isOwnerless": true,
+    "cardFamilyReference": "BR_113",
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_113/JPG/fr_FR/d424432ff8f9d07246740feca33083f6.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_113/JPG/en_US/bf669c82fbbef2b71de4e7cc003018c5.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_113/JPG/it_IT/81c480111b724d01c5a97b90fbe36b70.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_113/JPG/es_ES/8580351b01cd7eee72498977e6c4f0b0.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_BR_113/JPG/de_DE/50b009125e62dfbe84a3b9fa6063b46d.jpg"
+    },
+    "cardHistoryStatus": null,
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "reference": "ALT_EOLECB_A_BR_113_R1",
+    "isSerialized": false,
+    "isParentSerialized": false,
+    "@id": "/cards/ALT_EOLECB_A_BR_113_R1"
+  },
+  {
+    "id": "01KH6E45BEYBY7MKS8C8BS4SK6",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Character"
+    },
+    "cardSet": {
+      "@id": "/card_sets/EOLECB",
+      "@type": "CardSet",
+      "id": "01KH6E44GRCVN6CHNG9FY4KNXQ",
+      "reference": "EOLECB",
+      "name": "Roots of Corruption - Collector Booster"
+    },
+    "cardSubTypes": [],
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/59e9c6d979096273730d",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_107/JPG/en_US/8ddc0de45ab0603eaa91260d185301c7.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_107/WEB_245d525bb3230f123172b3c66e706fe0",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_107/WEB_dea35f8d7c1c4fa5674b7b9391d73fd8",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_107/WEB_19a397b6fd29f9521535b11a641f7a4c"
+      ]
+    },
+    "qrUrlDetail": "https://qr.altered.gg/ALT_EOLECB_A_LY_107_R1",
+    "mainFaction": {
+      "@id": "/factions/LY",
+      "@type": "Faction",
+      "reference": "LY",
+      "color": "#cf4171",
+      "id": "01GE7AC9XGB6JE2V63WXWN4FB3",
+      "name": "Lyra"
+    },
+    "name": "Corrupted Esmeralda",
+    "elements": {
+      "MAIN_COST": "2",
+      "RECALL_COST": "2",
+      "MOUNTAIN_POWER": "3",
+      "OCEAN_POWER": "3",
+      "FOREST_POWER": "0"
+    },
+    "isOwnerless": true,
+    "cardFamilyReference": "LY_107",
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_107/JPG/fr_FR/c3c2b377a223fb8065c7478f82e2547d.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_107/JPG/en_US/8ddc0de45ab0603eaa91260d185301c7.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_107/JPG/it_IT/a33f663572419cf0c86ddec7d822f51b.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_107/JPG/es_ES/2f88ccfb483b8d3fbec455600324268e.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_107/JPG/de_DE/d8ff886b7950439849c56abf58d679d9.jpg"
+    },
+    "cardHistoryStatus": null,
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "reference": "ALT_EOLECB_A_LY_107_R1",
+    "isSerialized": false,
+    "isParentSerialized": false,
+    "@id": "/cards/ALT_EOLECB_A_LY_107_R1"
+  },
+  {
+    "id": "01KH6E45BEYBY7MKS8C8BS4SKJ",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Character"
+    },
+    "cardSet": {
+      "@id": "/card_sets/EOLECB",
+      "@type": "CardSet",
+      "id": "01KH6E44GRCVN6CHNG9FY4KNXQ",
+      "reference": "EOLECB",
+      "name": "Roots of Corruption - Collector Booster"
+    },
+    "cardSubTypes": [],
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/59e9c6d979096273730d",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_113/JPG/en_US/f0be6577d6a55eb3aeb05489c5d8984a.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_113/WEB_afeaa43b2194031ccd214a14554f7055",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_113/WEB_1a7ff4c2d1e7aca0ea2b7b6445ae3496",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_113/WEB_01a663cf04693de9323ae1d06647fbba"
+      ]
+    },
+    "qrUrlDetail": "https://qr.altered.gg/ALT_EOLECB_A_LY_113_R1",
+    "mainFaction": {
+      "@id": "/factions/LY",
+      "@type": "Faction",
+      "reference": "LY",
+      "color": "#cf4171",
+      "id": "01GE7AC9XGB6JE2V63WXWN4FB3",
+      "name": "Lyra"
+    },
+    "name": "Bestowing Sloth",
+    "elements": {
+      "MAIN_COST": "2",
+      "RECALL_COST": "3",
+      "MOUNTAIN_POWER": "2",
+      "OCEAN_POWER": "3",
+      "FOREST_POWER": "3"
+    },
+    "isOwnerless": true,
+    "cardFamilyReference": "LY_113",
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_113/JPG/fr_FR/10fb8b23a640af0894bec6431610d16f.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_113/JPG/en_US/f0be6577d6a55eb3aeb05489c5d8984a.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_113/JPG/it_IT/9053edd892fba2d67aea0acf3fe3ab91.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_113/JPG/es_ES/d32f0665e4b445a6db569bdf5a085af2.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/EOLECB/CARDS/ALT_EOLECB_A_LY_113/JPG/de_DE/4d5bce5297dffa2af194889beee88c04.jpg"
+    },
+    "cardHistoryStatus": null,
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "reference": "ALT_EOLECB_A_LY_113_R1",
+    "isSerialized": false,
+    "isParentSerialized": false,
+    "@id": "/cards/ALT_EOLECB_A_LY_113_R1"
+  }
+]
