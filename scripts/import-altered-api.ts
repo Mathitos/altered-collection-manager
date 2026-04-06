@@ -73,12 +73,24 @@ type SkippedCard = {
  * Format: ALT_{COLLECTION}_{CARD_VARIANT_TYPE}_{FACTION}_{NUMBER}_{RARITY}
  * Unique:  ALT_{COLLECTION}_{CARD_VARIANT_TYPE}_{FACTION}_{NUMBER}_U_{UNIQUE_ID}
  *
+ * CARD_VARIANT_TYPE values:
+ *   B = Base card. The canonical version. Only this type is imported into the DB.
+ *
+ *   A = Alternate art. Same card characteristics (stats, effects, rules) as the
+ *       base (B) version, but with a different artwork and image URI.
+ *       For our business rules, treated identically to a promo — skipped during
+ *       import and saved to file for later review/linking.
+ *
+ *   P = Promo card. Also shares all characteristics with the base (B) version,
+ *       differing only in artwork. Same treatment as A: skipped and saved to file.
+ *
  * Examples:
- *   ALT_ALIZE_B_AX_32_C       → collection=ALIZE, type=B, faction=AX, num=32, rarity=C
- *   ALT_ALIZE_B_AX_32_R1      → rarity=R1
- *   ALT_ALIZE_B_AX_32_R2      → rarity=R2
- *   ALT_ALIZE_B_AX_32_U_19302 → rarity=U, uniqueId=19302
- *   ALT_DUSTERTOP_P_AX_32_R1  → type=P (promo → skip)
+ *   ALT_ALIZE_B_AX_32_C       → collection=ALIZE, type=B, faction=AX, num=32, rarity=C  ✅ imported
+ *   ALT_ALIZE_B_AX_32_R1      → rarity=R1                                                ✅ imported
+ *   ALT_ALIZE_B_AX_32_R2      → rarity=R2                                                ✅ imported
+ *   ALT_ALIZE_B_AX_32_U_19302 → rarity=U, uniqueId=19302                                 ✅ imported
+ *   ALT_ALIZE_A_AX_32_C       → type=A (alternate art, different image URI)              ⏭ skipped
+ *   ALT_DUSTERTOP_P_AX_32_R1  → type=P (promo, different image URI)                     ⏭ skipped
  */
 function parseReference(ref: string): ParsedRef | null {
   const parts = ref.split("_")
@@ -184,12 +196,11 @@ function classifyCards(cards: AlteredCard[]): ClassifiedCards {
     }
 
     if (parsed.cardVariantType !== MAIN_CARD_TYPE) {
-      skipped.push({
-        reference: card.reference,
-        name: card.name,
-        reason: `non_base_variant_type:${parsed.cardVariantType}`,
-        raw: card,
-      })
+      // A = alternate art (same stats as B, different image URI)
+      // P = promo (same stats as B, different image URI)
+      // Both are skipped for now and saved to file for future linking to their base card.
+      const label = parsed.cardVariantType === "A" ? "alternate_art" : parsed.cardVariantType === "P" ? "promo" : `unknown_variant:${parsed.cardVariantType}`
+      skipped.push({ reference: card.reference, name: card.name, reason: label, raw: card })
       continue
     }
 
