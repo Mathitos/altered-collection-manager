@@ -177,6 +177,11 @@ async function fetchAllCards(): Promise<AlteredCard[]> {
 // ── Import ─────────────────────────────────────────────────────────────────
 
 async function importCard(card: AlteredCard): Promise<"imported" | "skipped"> {
+  // Skip cards missing essential fields
+  if (!card.rarity?.reference || !card.mainFaction?.reference || !card.type?.reference) {
+    return "skipped"
+  }
+
   const rarity = extractRarity(card.rarity.reference)
   const faction = extractFaction(card.mainFaction.reference)
   const type = extractType(card.type.reference)
@@ -289,14 +294,19 @@ async function main() {
   console.log(`Found ${cards.length} cards total.\n`)
 
   let imported = 0
+  let skipped = 0
   let errors = 0
 
   for (const card of cards) {
     try {
-      await importCard(card)
-      imported++
-      if (imported % 50 === 0) {
-        process.stdout.write(`\r  Progress: ${imported}/${cards.length}`)
+      const result = await importCard(card)
+      if (result === "skipped") {
+        skipped++
+      } else {
+        imported++
+      }
+      if ((imported + skipped) % 100 === 0) {
+        process.stdout.write(`\r  Progress: ${imported + skipped}/${cards.length} (${imported} imported, ${skipped} skipped)`)
       }
     } catch (err) {
       errors++
@@ -306,6 +316,7 @@ async function main() {
 
   console.log(`\n\nDone!`)
   console.log(`  Imported: ${imported}`)
+  console.log(`  Skipped:  ${skipped} (missing required fields)`)
   console.log(`  Errors:   ${errors}`)
 }
 
