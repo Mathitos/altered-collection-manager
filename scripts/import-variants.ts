@@ -35,6 +35,10 @@ const prisma = new PrismaClient({ adapter } as ConstructorParameters<typeof Pris
 const DB_TO_API_RARITY: Record<string, string> = { C: "C", R: "R1", F: "R2", E: "E", U: "U" }
 const API_TO_DB_RARITY: Record<string, string> = { C: "C", R1: "R", R2: "F", E: "E", U: "U" }
 
+// Sets that use type B in their references but are alternate art of the main set,
+// not separate cards in the DB. Map variant set → base set for DB lookup.
+const ALTERNATE_SET_TO_BASE: Record<string, string> = { COREKS: "CORE" }
+
 // ── Types ──────────────────────────────────────────────────────────────────
 
 type AlteredVariant = {
@@ -45,6 +49,7 @@ type AlteredVariant = {
 }
 
 type ParsedRef = {
+  collection: string
   cardVariantType: string
   faction: string
   collectionNumber: number
@@ -73,7 +78,7 @@ function parseReference(ref: string): ParsedRef | null {
   if (raritySuffix === "U") return null
 
   const rarity = API_TO_DB_RARITY[raritySuffix] ?? raritySuffix
-  return { cardVariantType, faction, collectionNumber, rarity }
+  return { collection: parts[1], cardVariantType, faction, collectionNumber, rarity }
 }
 
 function getImageUrl(variant: AlteredVariant): string | null {
@@ -139,14 +144,17 @@ async function main() {
         const parsed = parseReference(variant.reference)
         if (!parsed) continue
 
-        // Skip B-type: these are separate cards in our DB
-        if (parsed.cardVariantType === "B") continue
+        // Skip B-type unless it belongs to a known alternate-art set (e.g. COREKS → CORE)
+        if (parsed.cardVariantType === "B" && !(parsed.collection in ALTERNATE_SET_TO_BASE)) continue
 
         const imageUrl = getImageUrl(variant)
         if (!imageUrl) continue
 
+        // Resolve base collection: COREKS variants belong to CORE cards in the DB
+        const baseCollection = ALTERNATE_SET_TO_BASE[parsed.collection] ?? cCard.collection
+
         // Match to DB card by (base collection, collectionNumber, faction from variant, rarity from variant)
-        const targetKey = `${cCard.collection}_${parsed.collectionNumber}_${parsed.faction}_${parsed.rarity}`
+        const targetKey = `${baseCollection}_${parsed.collectionNumber}_${parsed.faction}_${parsed.rarity}`
         const targetCard = cardIndex.get(targetKey)
         if (!targetCard) continue
 
