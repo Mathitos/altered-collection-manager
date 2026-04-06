@@ -232,6 +232,40 @@ Qual é a regra correta para `isCollectorArt`?
 
 ---
 
+## Bugs conhecidos / corrigidos
+
+### Zero-padding no `collectionNumber` ao construir a referência da API
+
+**Arquivo:** `scripts/import-variants.ts`  
+**Descoberto em:** 2026-04-06  
+**Status:** ✅ Corrigido
+
+**Problema:**  
+O `collectionNumber` é armazenado no banco como inteiro (ex: `4`). Ao construir a referência para chamar o endpoint `/cards/{reference}/variants`, o script gerava:
+
+```
+ALT_CORE_B_AX_4_C   ← gerado pelo script (errado)
+ALT_CORE_B_AX_04_C  ← formato real da API (correto)
+```
+
+A API retornava **404** silencioso (capturado como `[]` no código), então cards com `collectionNumber` de 1 dígito (1–9) nunca tinham suas variantes importadas. Nenhum erro era registrado.
+
+**Causa raiz:**  
+Template literal sem zero-padding:
+```typescript
+// antes (bugado)
+const baseRef = `ALT_${cCard.collection}_B_${cCard.faction}_${cCard.collectionNumber}_C`
+
+// depois (corrigido)
+const num = String(cCard.collectionNumber).padStart(2, "0")
+const baseRef = `ALT_${cCard.collection}_B_${cCard.faction}_${num}_C`
+```
+
+**Impacto:**  
+Cards com número 1–9 em qualquer coleção não tinham variantes P/A importadas. Ex: `ALT_DUSTERTOP_P_AX_04_C` não era salva como variante de `CORE/4/AX/C`.
+
+---
+
 ## Arquivo de dados brutos
 
 - `scripts/api-sample.json` — 10 cartas da rota padrão (EOLECB set)

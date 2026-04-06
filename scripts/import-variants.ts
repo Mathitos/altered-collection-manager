@@ -129,7 +129,8 @@ async function main() {
   const report: ReportEntry[] = []
 
   for (const cCard of cCards) {
-    const baseRef = `ALT_${cCard.collection}_B_${cCard.faction}_${cCard.collectionNumber}_C`
+    const num = String(cCard.collectionNumber).padStart(2, "0")
+    const baseRef = `ALT_${cCard.collection}_B_${cCard.faction}_${num}_C`
 
     try {
       const variants = await fetchVariants(baseRef)
