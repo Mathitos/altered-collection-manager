@@ -22,7 +22,7 @@ import { join } from "path"
 
 const BASE_URL = "https://api.altered.gg"
 const LOCALE = "en-us"
-const PAGE_SIZE = 36
+const PAGE_SIZE = 108
 
 const MAIN_COLLECTIONS = new Set(["CORE", "ALIZE", "BISE", "CYCLONE", "DUSTER", "EOLE"])
 const MAIN_CARD_TYPE = "B"
