@@ -169,9 +169,10 @@ async function main() {
   for (const card of cards) {
     await prisma.card.upsert({
       where: {
-        collection_collectionNumber_rarity: {
+        collection_collectionNumber_faction_rarity: {
           collection: card.collection,
           collectionNumber: card.collectionNumber,
+          faction: card.faction,
           rarity: card.rarity,
         },
       },
