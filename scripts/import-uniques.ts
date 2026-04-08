@@ -181,11 +181,28 @@ async function main() {
 
   const groups = [...groupMap.values()]
 
-  // Total queries = one per (group × faction)
+  // Load existing unique card counts per (collection, collectionNumber, faction)
+  type CountRow = { collection: string; collectionNumber: number; faction: string; count: bigint }
+  const existingCounts = await prisma.$queryRaw<CountRow[]>`
+    SELECT collection, "collectionNumber", faction, COUNT(*)::bigint AS count
+    FROM unique_cards
+    GROUP BY collection, "collectionNumber", faction
+  `
+  const countMap = new Map<string, number>()
+  for (const row of existingCounts) {
+    const key = `${row.collection}_${row.collectionNumber}_${row.faction}`
+    countMap.set(key, Number(row.count))
+  }
+
+  // Total queries = one per (group × faction), excluding already-complete ones
   const totalQueries = groups.reduce((sum, g) => sum + g.factions.size, 0)
-  console.log(`Card families: ${groups.length} | API queries to make: ${totalQueries}\n`)
+  const skippedQueries = groups.reduce((sum, g) => {
+    return sum + [...g.factions].filter(f => (countMap.get(`${g.collection}_${g.collectionNumber}_${f}`) ?? 0) >= 1000).length
+  }, 0)
+  console.log(`Card families: ${groups.length} | API queries to make: ${totalQueries} | Skipping (>=1000 already): ${skippedQueries}\n`)
 
   let queriesDone = 0
+  let skipped = 0
   let imported = 0
   let errors = 0
 
@@ -194,6 +211,12 @@ async function main() {
     const queryRef = `ALT_${group.collection}_B_${group.rFaction}_${num}_R1`
 
     for (const faction of group.factions) {
+      const existingCount = countMap.get(`${group.collection}_${group.collectionNumber}_${faction}`) ?? 0
+      if (existingCount >= 1000) {
+        skipped++
+        continue
+      }
+
       try {
         const uniques = await fetchUniques(queryRef, faction)
 
@@ -277,7 +300,7 @@ async function main() {
         }
 
         queriesDone++
-        process.stdout.write(`\r  Progress: ${queriesDone}/${totalQueries} | upserted: ${imported}`)
+        process.stdout.write(`\r  Progress: ${queriesDone}/${totalQueries} | skipped: ${skipped} | upserted: ${imported}`)
 
         await new Promise((r) => setTimeout(r, 30000))
       } catch (err) {
@@ -289,6 +312,7 @@ async function main() {
 
   console.log(`\n\nDone!`)
   console.log(`  Queries made: ${queriesDone}/${totalQueries}`)
+  console.log(`  Skipped (>=1000 already in DB): ${skipped}`)
   console.log(dryRun ? `  Would upsert: ${imported}` : `  Upserted: ${imported}`)
   console.log(`  Errors:   ${errors}`)
 }
